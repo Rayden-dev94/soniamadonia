@@ -13,11 +13,27 @@ export const studio = {
   ruolo: 'Psicologa e Analista del Comportamento certificata',
   albo: 'Albo degli Psicologi della Regione Siciliana, Sezione A — n. 10600',
   email: 'soniamadonia@abafriendly.it',
-  telefono: '328 961 5159',
+  telefono: '+39 328 961 5159',
   citta: 'Gela (CL)',
   /** Nessuna partita IVA nel documento: da chiedere prima della pubblicazione. */
   partitaIva: 'P. IVA da inserire',
 }
+
+/**
+ * Contatto WhatsApp.
+ *
+ * Il numero va scritto in formato internazionale **senza `+`, spazi o zeri
+ * iniziali**: è l'unico che `wa.me` accetta. Il messaggio precompilato toglie a
+ * chi scrive l'imbarazzo della prima riga — che su un tema delicato è spesso
+ * l'ostacolo vero.
+ */
+export const whatsapp = {
+  numero: '393289615159',
+  messaggio:
+    'Salve dott.ssa Madonia, le scrivo dal suo sito per avere informazioni.',
+}
+
+export const linkWhatsapp = `https://wa.me/${whatsapp.numero}?text=${encodeURIComponent(whatsapp.messaggio)}`
 
 /**
  * Fotografie della professionista.
@@ -44,20 +60,105 @@ export const navigazione = [
   { etichetta: 'Contatti', href: '/contatti' },
 ]
 
-/** Apertura della home, dalle prime righe del documento. */
+/**
+ * Apertura della home, dalle prime righe del documento.
+ *
+ * Il titolo è la versione accorciata: nel documento originale è «interventi
+ * individualizzati per persone con diagnosi di autismo». In un titolo la forma
+ * breve si legge meglio; la dicitura tecnica resta nei paragrafi qui sotto e
+ * nelle pagine interne, dove la precisione conta di più della scorrevolezza.
+ */
 export const presentazione = {
   titolo:
-    'Interventi individualizzati per persone con diagnosi di autismo e altri disturbi del neurosviluppo',
+    'Interventi personalizzati per persone con autismo e altri disturbi del neurosviluppo',
   paragrafi: [
-    'Sono la dott.ssa Sonia Madonia, psicologa e Analista del Comportamento certificata, con oltre quindici anni di esperienza nell’ambito dell’Analisi del Comportamento Applicata — Applied Behavior Analysis (ABA).',
+    // La città è nominata qui, nel primo paragrafo: è il punto in cui una
+    // ricerca locale trova la corrispondenza. Detta con naturalezza, non
+    // appiccicata — il territorio in cui lavora è un'informazione vera.
+    'Sono la dott.ssa Sonia Madonia, psicologa e Analista del Comportamento certificata, con oltre quindici anni di esperienza nell’ambito dell’Analisi del Comportamento Applicata — Applied Behavior Analysis (ABA). Lavoro a Gela e nel territorio delle province di Caltanissetta e Catania.',
     'Mi occupo di osservazione e valutazione comportamentale, progettazione di interventi individualizzati, supervisione clinica, parent training, coordinamento di équipe multidisciplinari e formazione di professionisti, operatori e personale scolastico.',
     'Ogni intervento viene costruito sulle caratteristiche, sulle abilità e sui bisogni specifici della persona, e viene monitorato attraverso l’osservazione diretta e la raccolta sistematica dei dati.',
   ],
 }
 
+/**
+ * Immagini d'ambiente usate fuori dalle aree di servizio.
+ *
+ * ⚠️ Sono fotografie generiche di stock, scelte senza persone e nella
+ * palette del sito. Servono a non lasciare pagine di solo testo, ma vanno
+ * sostituite con fotografie dei luoghi reali di lavoro: la ricerca sul
+ * settore è unanime nel dire che le foto vere convertono molto meglio.
+ */
+export const immagini = {
+  contatti: '/ambiente-6.jpg',
+}
+
+/**
+ * Il marchio personale della professionista.
+ *
+ * È un JPG **senza trasparenza**: sul fondo sabbia mostrerebbe un rettangolo
+ * bianco. Nel componente viene fuso con `mix-blend-mode: multiply`, che su uno
+ * sfondo chiaro fa sparire il bianco senza bisogno di ritoccare il file.
+ * Se un domani arriva una versione PNG trasparente, la fusione si può togliere.
+ */
+export const marchio = {
+  file: '/logo-abafriendly.jpg',
+  alt: 'ABA Friendly',
+}
+
+/**
+ * I tre fatti verificabili, in evidenza sulla home.
+ *
+ * Sono numeri e iscrizioni, non aggettivi: chiunque può controllarli sui
+ * registri. È il tipo di prova che sostituisce le testimonianze, che in Italia
+ * un professionista sanitario non può usare.
+ */
+export const credenziali = [
+  {
+    valore: 'Dal 2010',
+    etichetta: 'nel campo dell’Analisi del Comportamento Applicata',
+  },
+  {
+    valore: 'n. 10600',
+    etichetta: 'Albo degli Psicologi della Regione Siciliana, Sezione A',
+  },
+  {
+    valore: 'Tre',
+    etichetta: 'certificazioni: IBAO®, IACABAI e SIACSA/ABAIT',
+  },
+]
+
+/**
+ * «Infinito» — l'opera collettiva.
+ *
+ * Il simbolo dell'infinito, non il pezzo di puzzle: è una presa di posizione
+ * precisa nella comunità autistica, e il testo la rende esplicita. Non
+ * sostituire né l'immagine né le parole con qualcosa di più «neutro».
+ *
+ * ⚠️ L'ultima frase arriva troncata dal documento fornito: si interrompe su
+ * «alla costruzione di qualcosa». Va completata con le parole della dott.ssa
+ * prima di pubblicare — non inventate.
+ */
+export const opera = {
+  occhiello: 'Un’opera collettiva',
+  titolo: 'Infinito',
+  immagine: '/opera-infinito.jpg',
+  alt: 'Infinito: trittico su tela in cui il simbolo dell’infinito è composto da centinaia di impronte digitali colorate, trasformate in piccoli animali.',
+  paragrafi: [
+    'Infinito è un’opera collettiva realizzata con le impronte dei bambini e dei ragazzi con diagnosi di autismo che seguo nell’ambito dei progetti promossi dalle ASP di Caltanissetta e Catania, presso le Cooperative Carpe Diem di Gela e Zeno Saltini di Caltagirone.',
+    'Alle loro impronte si uniscono quelle delle tante persone che, con ruoli diversi, fanno parte della nostra rete: tecnici del comportamento, educatori, insegnanti, tirocinanti, fotografi, rappresentanti delle istituzioni e responsabili delle cooperative e molti altri.',
+    'Tutte queste impronte, diverse tra loro, si incontrano e formano un unico infinito. Sono stati proprio alcuni ragazzi con diagnosi di autismo a farmene comprendere il significato più profondo: non sono pezzi di un puzzle e nessuno di noi lo è. Ogni persona è unica e completa, ma può entrare in relazione con gli altri e contribuire con le proprie caratteristiche e i propri talenti alla costruzione di qualcosa.',
+  ],
+}
+
 /** A chi si rivolgono i servizi. */
 export const destinatari = [
-  'Bambini, adolescenti e adulti con diagnosi di autismo o altri disturbi del neurosviluppo',
+  // L'elenco completo delle diagnosi è quello del documento originale.
+  // Riassumerlo in «autismo o altri disturbi del neurosviluppo» — come avevo
+  // fatto in una prima stesura — costava caro due volte: una famiglia con una
+  // diagnosi di ADHD o di DSA non si riconosceva, e il sito spariva da quelle
+  // ricerche. I nomi delle diagnosi sono i termini con cui le persone cercano.
+  'Bambini, adolescenti e adulti con diagnosi di autismo, disabilità intellettiva, disturbi della comunicazione e del linguaggio, ADHD (disturbo da deficit di attenzione/iperattività), disturbi specifici dell’apprendimento e altri disturbi del neurosviluppo',
   'Genitori, familiari e caregiver',
   'Insegnanti, educatori, ASACOM e Tecnici del Comportamento',
   'Scuole e istituti di formazione',
@@ -79,7 +180,8 @@ export const aree = [
     titolo: 'Valutazione e progettazione',
     sommario:
       'Dal primo colloquio al piano individualizzato: capire cosa serve prima di decidere come intervenire.',
-    immagine: '/ambiente-1.jpg',
+    /** Foto vera di un colloquio: persone riconoscibili, serve il consenso. */
+    immagine: '/colloquio.jpg',
     servizi: [
       {
         titolo: 'Primo colloquio e analisi della richiesta',
@@ -110,7 +212,7 @@ export const aree = [
       {
         titolo: 'Valutazione funzionale dei comportamenti',
         testo:
-          'Serve a comprendere le variabili che influenzano i comportamenti che interferiscono con l’apprendimento, la partecipazione o la vita quotidiana: definizione operazionale, raccolta di informazioni da genitori e insegnanti, osservazione di antecedenti e conseguenze, ipotesi sulla funzione, individuazione di strategie preventive e abilità alternative da insegnare. Prima di attribuire una funzione esclusivamente comportamentale vengono considerati anche fattori medici, sensoriali, comunicativi e ambientali.',
+          'Serve a comprendere le variabili che influenzano i comportamenti problema — quelli che interferiscono con l’apprendimento, la partecipazione o la vita quotidiana: definizione operazionale, raccolta di informazioni da genitori e insegnanti, osservazione di antecedenti e conseguenze, ipotesi sulla funzione, individuazione di strategie preventive e abilità alternative da insegnare. Prima di attribuire una funzione esclusivamente comportamentale vengono considerati anche fattori medici, sensoriali, comunicativi e ambientali.',
       },
       {
         titolo: 'Progettazione di interventi ABA individualizzati',
@@ -123,7 +225,15 @@ export const aree = [
     titolo: 'Intervento e accompagnamento',
     sommario:
       'La messa in pratica: supervisione degli operatori, parent training, monitoraggio dei progressi sui dati.',
-    immagine: '/ambiente-2.jpg',
+    /**
+     * ⚠️ Ritrae un MINORE durante un intervento.
+     *
+     * Non basta il consenso generico: serve quello scritto di **entrambi** i
+     * genitori o di chi esercita la responsabilità genitoriale, specifico per
+     * la pubblicazione sul web. Il fatto che il contesto lasci intuire una
+     * diagnosi lo rende un dato particolarissimo ai sensi del GDPR.
+     */
+    immagine: '/intervento.jpg',
     servizi: [
       {
         titolo: 'Supervisione degli interventi ABA',
@@ -156,7 +266,11 @@ export const aree = [
     titolo: 'Scuola, équipe e organizzazioni',
     sommario:
       'Il lavoro con i contesti: consulenza scolastica, coordinamento dell’équipe, progettazione di servizi.',
-    immagine: '/ambiente-3.jpg',
+    /**
+     * Foto vera: ritrae persone riconoscibili e richiede il loro consenso
+     * prima della pubblicazione.
+     */
+    immagine: '/corso-formazione.jpg',
     servizi: [
       {
         titolo: 'Consulenza scolastica',
@@ -179,7 +293,15 @@ export const aree = [
     titolo: 'Formazione',
     sommario:
       'Corsi per Tecnici del Comportamento, professionisti sanitari, insegnanti e personale scolastico.',
-    immagine: '/ambiente-4.jpg',
+    /**
+     * Foto vera, non un'immagine d'ambiente.
+     *
+     * ⚠️ Ritrae persone riconoscibili: prima della pubblicazione serve il loro
+     * consenso all'uso dell'immagine. Un volto risulta già oscurato
+     * nell'originale — segno che il tema è stato considerato, ma vale per
+     * tutti gli altri.
+     */
+    immagine: '/corso-scuola.jpg',
     servizi: [
       {
         titolo: 'Formazione per Tecnici del Comportamento e professionisti sanitari',
@@ -272,18 +394,26 @@ export const certificazioni = [
   {
     titolo: 'International Behavior Analyst® — IBAO®',
     numero: 'Certificazione n. 76933613',
+    logo: '/logo-ibao.png' as string | null,
+    sigla: 'IBAO®',
     testo:
       'IBAO® — International Behavior Analysis Organization® — è un organismo internazionale di certificazione nell’ambito dell’Analisi del Comportamento Applicata. La certificazione IBA® attesta il possesso degli standard previsti in materia di formazione, esperienza pratica, supervisione, competenze ed etica professionale, e rende verificabile la preparazione dell’Analista del Comportamento a livello internazionale.',
   },
   {
     titolo: 'Analista del Comportamento — AdC IACABAI',
     numero: 'Certificazione n. 1-001-39',
+    logo: '/logo-iacabai.png' as string | null,
+    sigla: 'IACABAI',
     testo:
       'IACABAI è l’Italy Associate Chapter di ABAI e gestisce i registri dedicati alle figure professionali dell’Analisi del Comportamento Applicata. La certificazione AdC attesta i requisiti tecnico-scientifici previsti per progettare, coordinare e monitorare interventi comportamentali.',
   },
   {
     titolo: 'Analista del Comportamento — SIACSA/ABAIT',
     numero: 'Codice socio S-2022-00601 — validità fino al 31 dicembre 2026',
+    logo: '/logo-abait.png' as string | null,
+    sigla: 'ABAIT',
+    /** Marchio orizzontale: va tenuto più basso degli altri due (vedi nota). */
+    largo: true,
     testo:
       'SIACSA gestisce il registro nazionale professionale degli Analisti e degli Assistenti Analisti del Comportamento. ABAIT — Applied Behavior Analysis Italia — promuove il riconoscimento e lo sviluppo delle professioni ABA e ne definisce i requisiti formativi e professionali.',
   },
@@ -353,6 +483,11 @@ export const faq = [
       'È un approccio scientifico allo studio del comportamento che utilizza l’osservazione diretta e la raccolta sistematica dei dati per progettare interventi individualizzati. Gli obiettivi sono osservabili e misurabili, e i risultati vengono verificati sui dati e non su impressioni generali.',
   },
   {
+    domanda: 'Lavora solo a Gela?',
+    risposta:
+      'La sede è a Gela, in provincia di Caltanissetta. Seguo inoltre progetti nel territorio — Niscemi, Sommatino, San Cataldo e Caltagirone — nell’ambito delle collaborazioni con le cooperative convenzionate con le ASP di Caltanissetta e Catania.',
+  },
+  {
     domanda: 'Dove si svolgono gli interventi?',
     risposta:
       'Quando possibile e necessario, nei contesti in cui le abilità o le difficoltà si manifestano: casa, scuola, centro educativo o altri ambienti di vita. Le collaborazioni con le cooperative del territorio permettono inoltre di operare presso i loro spazi.',
@@ -377,9 +512,18 @@ export const faq = [
 /** Titolo e description usati per <title> e meta, pagina per pagina. */
 export const seo = {
   home: {
-    titolo: `${studio.nome} — ${studio.ruolo}`,
+    /**
+     * Il titolo della home porta la località, perché è il primo posto in cui
+     * Google cerca corrispondenza per una ricerca locale.
+     *
+     * L'ordine non è casuale: prima il mestiere e la città — che è quello che
+     * la gente digita — poi il nome, che serve a chi la cerca già sapendo come
+     * si chiama. Sta sotto i 60 caratteri, oltre i quali il titolo viene
+     * troncato nei risultati.
+     */
+    titolo: `Analista del Comportamento ABA a Gela — ${studio.nome}`,
     descrizione:
-      'Psicologa e Analista del Comportamento certificata ABA a Gela. Valutazione, interventi individualizzati, parent training, supervisione e formazione per autismo e disturbi del neurosviluppo.',
+      'Psicologa e Analista del Comportamento certificata ABA a Gela. Interventi per autismo e disturbi del neurosviluppo, parent training, supervisione.',
   },
   chiSono: {
     titolo: `Chi sono — ${studio.nome}`,

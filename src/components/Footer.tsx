@@ -1,4 +1,6 @@
-import { Link } from 'react-router'
+import Link from 'next/link'
+
+import { Marchio } from '@/components/Marchio'
 
 import { navigazione, studio } from '@/data/contenuti'
 
@@ -7,12 +9,15 @@ export function Footer() {
     <footer className="border-t border-sabbia-200 py-14">
       <div className="contenitore flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <Link
-            to="/"
-            className="legame font-display text-lg text-inchiostro-900 transition-colors hover:text-salvia-700"
-          >
-            {studio.nome}
+          {/* Il marchio chiude la pagina come la apre. Più piccolo che in
+              navbar: qui firma, non si annuncia. */}
+          <Link href="/" className="inline-block">
+            <Marchio className="h-14 w-auto" />
           </Link>
+
+          <p className="mt-4 font-display text-lg text-inchiostro-900">
+            {studio.nomeCompleto}
+          </p>
           <p className="mt-2 text-sm text-inchiostro-500">{studio.ruolo}</p>
           <p className="mt-1 text-sm text-inchiostro-500">{studio.albo}</p>
         </div>
@@ -21,7 +26,7 @@ export function Footer() {
           {navigazione.map((voce) => (
             <li key={voce.href}>
               <Link
-                to={voce.href}
+                href={voce.href}
                 className="legame text-sm text-inchiostro-500 transition-colors hover:text-salvia-700"
               >
                 {voce.etichetta}
@@ -36,7 +41,7 @@ export function Footer() {
           © {new Date().getFullYear()} {studio.nome} — {studio.partitaIva}
         </p>
         <p>
-          <Link to="/privacy" className="legame transition-colors hover:text-salvia-700">
+          <Link href="/privacy" className="legame transition-colors hover:text-salvia-700">
             Privacy e cookie policy
           </Link>
         </p>

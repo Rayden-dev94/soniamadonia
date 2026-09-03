@@ -1,4 +1,6 @@
-import { Link } from 'react-router'
+'use client'
+
+import Link from 'next/link'
 
 import { useRivela } from '@/hooks/useRivela'
 
@@ -28,7 +30,7 @@ export function RichiamoFinale({
             {testo}
           </p>
           <Link
-            to="/contatti"
+            href="/contatti"
             className="bottone-chiaro mt-9 inline-block px-7 py-3.5"
           >
             Scrivimi

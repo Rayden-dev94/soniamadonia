@@ -1,5 +1,7 @@
+'use client'
+
 import { useRef } from 'react'
-import { Link } from 'react-router'
+import Link from 'next/link'
 
 import { fotoHero, presentazione, studio } from '@/data/contenuti'
 import { useIntro } from '@/lib/contestoIntro'
@@ -7,7 +9,7 @@ import { gsap, motoRidotto, useGSAP } from '@/lib/gsap'
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null)
-  const { attiva: introAttiva, inUscita } = useIntro()
+  const { attiva: introAttiva, inUscita, deciso } = useIntro()
 
   /**
    * Un solo valore invece di due.
@@ -24,7 +26,11 @@ export function Hero() {
    * impostato e uscirebbe senza ricreare le animazioni appena annullate — e la
    * pagina resterebbe vuota.
    */
-  const deveEntrare = !introAttiva || inUscita
+  // `deciso` è il pezzo nuovo: prima di sapere se l'intro parte, l'hero non
+  // si muove. Senza, nel fotogramma iniziale — quando la risposta non c'è
+  // ancora — partirebbe l'entrata, e un istante dopo l'intro gli finirebbe
+  // sopra: si vedrebbe un lampo della pagina prima del velo.
+  const deveEntrare = deciso && (!introAttiva || inUscita)
 
   useGSAP(
     () => {
@@ -60,13 +66,15 @@ export function Hero() {
   )
 
   return (
-    // `pt-20` è l'altezza della navbar: il riquadro comincia sotto di essa, così
-    // il menu resta su fondo sabbia e non serve invertirne i colori.
-    <section ref={ref} className="pt-20">
+    // Lo spazio in cima è l'altezza della navbar: il riquadro comincia sotto
+    // di essa, così il menu resta su fondo sabbia e non serve invertirne i
+    // colori. I due valori vanno tenuti allineati a quelli in `Navbar.tsx`, e
+    // all'altezza calcolata in `altezza-prima-schermata`.
+    <section ref={ref} className="pt-20 lg:pt-28">
       <div className="px-4 sm:px-6 lg:px-8">
         {/* Un unico riquadro che riempie la prima schermata, staccato dai bordi
             e arrotondato: la foto è la pagina, il testo ci sta sopra. */}
-        <div className="relative h-[calc(100svh-6.5rem)] min-h-[32rem] overflow-hidden rounded-[1.75rem] bg-sabbia-200 lg:rounded-[2.5rem]">
+        <div className="altezza-prima-schermata relative overflow-hidden rounded-[1.75rem] bg-sabbia-200 lg:rounded-[2.5rem]">
           {fotoHero.file && (
             <img
               data-foto
@@ -101,7 +109,10 @@ export function Hero() {
                 data-anim
                 className="mb-4 text-xs tracking-[0.2em] text-salvia-200 uppercase sm:mb-5 sm:text-sm"
               >
-                {studio.ruolo}
+                {/* La località accanto al ruolo, appena sopra il titolo: è il
+                    punto più alto della pagina in cui possa stare senza
+                    appesantire il titolo stesso. */}
+                {studio.ruolo} · {studio.citta}
               </p>
 
               <h1
@@ -126,13 +137,13 @@ export function Hero() {
                 className="mt-6 flex flex-wrap items-center gap-4 sm:mt-8"
               >
                 <Link
-                  to="/contatti"
+                  href="/contatti"
                   className="bottone-chiaro px-6 py-3 sm:px-7 sm:py-3.5"
                 >
                   Richiedi un colloquio
                 </Link>
                 <Link
-                  to="/servizi"
+                  href="/servizi"
                   className="bottone-contorno-chiaro hidden px-7 py-3.5 sm:inline-block"
                 >
                   I servizi

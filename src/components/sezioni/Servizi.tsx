@@ -1,5 +1,6 @@
-import { Link } from 'react-router'
+'use client'
 
+import { Rimando } from '@/components/Rimando'
 import { aree } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
 
@@ -28,32 +29,40 @@ export function Servizi({ anteprima = false }: Props) {
             Quattro aree di lavoro, un unico metodo.
           </h2>
 
+          {/* Ogni scheda porta la stessa immagine che l'area avrà nella pagina
+              Servizi: chi ci arriva la ritrova e riconosce dove si trova. */}
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
             {aree.map((area) => (
               <article
                 key={area.titolo}
                 data-anim
-                className="rounded-3xl border border-sabbia-200 bg-sabbia-50/80 p-8 transition-colors duration-300 hover:border-salvia-400"
+                className="overflow-hidden rounded-3xl border border-sabbia-200 bg-sabbia-50/80 transition-colors duration-300 hover:border-salvia-400"
               >
-                <h3 className="text-xl">{area.titolo}</h3>
-                <p className="mt-4 leading-relaxed text-inchiostro-500">
-                  {area.sommario}
-                </p>
-                <p className="mt-5 text-sm text-salvia-600">
-                  {area.servizi.length}{' '}
-                  {area.servizi.length === 1 ? 'servizio' : 'servizi'}
-                </p>
+                <img
+                  src={area.immagine}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-16/9 w-full object-cover"
+                />
+                <div className="p-8">
+                  <h3 className="text-xl">{area.titolo}</h3>
+                  <p className="mt-4 leading-relaxed text-inchiostro-500">
+                    {area.sommario}
+                  </p>
+                  <p className="mt-5 text-sm text-salvia-600">
+                    {area.servizi.length}{' '}
+                    {area.servizi.length === 1 ? 'servizio' : 'servizi'}
+                  </p>
+                </div>
               </article>
             ))}
           </div>
 
-          <Link
-            data-anim
-            to="/servizi"
-            className="legame mt-10 inline-block text-inchiostro-900 transition-colors hover:text-salvia-700"
-          >
+          <Rimando data-anim href="/servizi" className="mt-10">
             Tutti i servizi nel dettaglio
-          </Link>
+          </Rimando>
         </div>
       </section>
     )
@@ -80,7 +89,7 @@ export function Servizi({ anteprima = false }: Props) {
                     aria-hidden="true"
                     loading="lazy"
                     decoding="async"
-                    className="aspect-4/3 w-full rounded-[2rem] object-cover"
+                    className="aspect-16/9 w-full rounded-[2rem] object-cover"
                   />
                 </div>
 
@@ -118,7 +127,7 @@ export function Servizi({ anteprima = false }: Props) {
                     </h3>
 
                     <div>
-                      <p className="leading-relaxed text-inchiostro-500">
+                      <p className="misura leading-relaxed text-inchiostro-500">
                         {servizio.testo}
                       </p>
 

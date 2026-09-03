@@ -1,59 +1,19 @@
-import { Link } from 'react-router'
+'use client'
 
 import { Ritratto } from '@/components/Ritratto'
+import { SimboloPsi } from '@/components/SimboloPsi'
 import {
   biografia,
   certificazioni,
   notaCertificazioni,
-  presentazione,
   principi,
   qualifiche,
   studio,
 } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
 
-type Props = {
-  /** Versione ridotta per la home, con rimando alla pagina completa. */
-  anteprima?: boolean
-}
-
-export function ChiSono({ anteprima = false }: Props) {
+export function ChiSono() {
   const ref = useRivela<HTMLElement>()
-
-  if (anteprima) {
-    return (
-      <section ref={ref} className="py-24 sm:py-32">
-        <div className="contenitore max-w-3xl">
-          <p
-            data-anim
-            className="mb-5 text-sm tracking-[0.2em] text-salvia-600 uppercase"
-          >
-            Chi sono
-          </p>
-
-          <div className="space-y-5 text-lg leading-relaxed text-inchiostro-500">
-            {presentazione.paragrafi.map((paragrafo) => (
-              <p key={paragrafo.slice(0, 24)} data-anim>
-                {paragrafo}
-              </p>
-            ))}
-          </div>
-
-          <p data-anim className="mt-6 text-base text-inchiostro-500/80">
-            {studio.albo}
-          </p>
-
-          <Link
-            data-anim
-            to="/chi-sono"
-            className="legame mt-8 inline-block text-inchiostro-900 transition-colors hover:text-salvia-700"
-          >
-            Percorso professionale e certificazioni
-          </Link>
-        </div>
-      </section>
-    )
-  }
 
   return (
     <section ref={ref} className="pb-24 sm:pb-32">
@@ -68,7 +28,11 @@ export function ChiSono({ anteprima = false }: Props) {
               {paragrafo}
             </p>
           ))}
-          <p data-anim className="text-base text-inchiostro-500/80">
+          <p
+            data-anim
+            className="flex items-start gap-3 text-base text-inchiostro-500/80"
+          >
+            <SimboloPsi className="mt-1 h-5 w-5 shrink-0 text-salvia-500" />
             {studio.albo}
           </p>
         </div>
@@ -87,9 +51,38 @@ export function ChiSono({ anteprima = false }: Props) {
             <article
               key={certificazione.titolo}
               data-anim
-              className="rounded-3xl border border-sabbia-200 p-7"
+              className="flex flex-col rounded-3xl border border-sabbia-200 bg-sabbia-50/70 p-7"
             >
-              <h3 className="text-lg">{certificazione.titolo}</h3>
+              {/* Riquadro del marchio ad altezza fissa, altrimenti le tre
+                  schede partirebbero da tre altezze diverse.
+
+                  I marchi orizzontali vengono tenuti più bassi: IBAO e IACABAI
+                  sono quasi quadrati, ABAIT è largo più del doppio. Alla stessa
+                  altezza quest'ultimo occuperebbe quasi il doppio dell'area e
+                  sembrerebbe più importante. Il rapporto 0,73 pareggia l'area
+                  ottica dei tre. */}
+              <div className="flex h-14 items-center">
+                {certificazione.logo ? (
+                  <img
+                    src={certificazione.logo}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                    className={`w-auto max-w-[9rem] object-contain object-left ${
+                      'largo' in certificazione && certificazione.largo
+                        ? 'max-h-10'
+                        : 'max-h-14'
+                    }`}
+                  />
+                ) : (
+                  <span className="font-display text-2xl text-salvia-600">
+                    {certificazione.sigla}
+                  </span>
+                )}
+              </div>
+
+              <h3 className="mt-6 text-lg">{certificazione.titolo}</h3>
               <p className="mt-2 font-display text-sm text-salvia-600">
                 {certificazione.numero}
               </p>

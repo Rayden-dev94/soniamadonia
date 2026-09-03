@@ -1,3 +1,5 @@
+'use client'
+
 import { destinatari } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
 

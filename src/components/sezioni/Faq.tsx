@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 
 import { faq } from '@/data/contenuti'

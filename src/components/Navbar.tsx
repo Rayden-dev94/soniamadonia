@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router'
+'use client'
 
-import { navigazione, studio } from '@/data/contenuti'
+import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+import { Marchio } from '@/components/Marchio'
+import { IconaWhatsapp } from '@/components/Whatsapp'
+import { linkWhatsapp, navigazione, studio } from '@/data/contenuti'
 import { useIntro } from '@/lib/contestoIntro'
 import { gsap, motoRidotto, useGSAP } from '@/lib/gsap'
 
@@ -170,7 +175,8 @@ function animaChiusura() {
 export function Navbar() {
   const [staccata, setStaccata] = useState(false)
   const [aperta, setAperta] = useState(false)
-  const { attiva: introAttiva } = useIntro()
+  const { attiva: introAttiva, deciso } = useIntro()
+  const percorso = usePathname()
 
   const ref = useRef<HTMLElement>(null)
 
@@ -226,9 +232,11 @@ export function Navbar() {
     }
   }, [aperta])
 
-  const stileVoce = ({ isActive }: { isActive: boolean }) =>
-    `legame text-sm transition-colors hover:text-salvia-700 ${
-      isActive ? 'text-salvia-700' : 'text-inchiostro-500'
+  // `NavLink` di React Router segnalava da sé la voce attiva. Con next/link
+  // la si ricava dal percorso corrente, che è comunque un dato che serve.
+  const stileVoce = (href: string) =>
+    `legame text-sm transition-colors hover:text-salvia-700 lg:text-base ${
+      percorso === href ? 'text-salvia-700' : 'text-inchiostro-500'
     }`
 
   return (
@@ -240,30 +248,42 @@ export function Navbar() {
           : 'bg-transparent'
       }`}
     >
-      <nav className="contenitore relative z-10 flex h-20 items-center justify-between">
+      <nav className="contenitore relative z-10 flex h-20 items-center justify-between lg:h-28">
+        {/* Il marchio sta accanto al nome, non al suo posto.
+            `data-marchio` resta sul solo testo perché è lì che l'intro fa
+            atterrare il nome volante: se misurasse tutto il blocco, il volo
+            finirebbe spostato della larghezza del simbolo. La comparsa la
+            governa invece `data-marchio-blocco`, così simbolo e nome si
+            accendono insieme. */}
         <Link
-          data-marchio
-          to="/"
+          data-marchio-blocco
+          href="/"
           onClick={nascondiMenu}
-          className={`legame font-display text-lg leading-none text-inchiostro-900 transition-colors hover:text-salvia-700 ${
-            introAttiva ? 'opacity-0' : 'opacity-100'
+          className={`flex items-center gap-3 transition-opacity lg:gap-4 ${
+            !deciso || introAttiva ? 'opacity-0' : 'opacity-100'
           }`}
         >
-          {studio.nome}
+          <Marchio className="h-9 w-auto shrink-0 lg:h-14" data-simbolo-nav />
+          <span
+            data-marchio
+            className="legame font-display text-lg leading-none text-inchiostro-900 transition-colors hover:text-salvia-700 lg:text-2xl"
+          >
+            {studio.nome}
+          </span>
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-8 md:flex lg:gap-10">
           {navigazione.map((voce) => (
             <li key={voce.href}>
-              <NavLink to={voce.href} className={stileVoce}>
+              <Link href={voce.href} className={stileVoce(voce.href)}>
                 {voce.etichetta}
-              </NavLink>
+              </Link>
             </li>
           ))}
           <li>
             <Link
-              to="/contatti"
-              className="rounded-full bg-salvia-600 px-5 py-2.5 text-sm font-medium text-sabbia-50 transition-colors hover:bg-salvia-700"
+              href="/contatti"
+              className="rounded-full bg-salvia-600 px-5 py-2.5 text-sm font-medium text-sabbia-50 transition-colors hover:bg-salvia-700 lg:px-7 lg:py-3 lg:text-base"
             >
               Richiedi un colloquio
             </Link>
@@ -322,8 +342,8 @@ export function Navbar() {
                   aria-hidden="true"
                   className="h-px origin-left bg-sabbia-200"
                 />
-                <NavLink
-                  to={voce.href}
+                <Link
+                  href={voce.href}
                   onClick={nascondiMenu}
                   className="flex items-baseline gap-5 py-6"
                 >
@@ -341,7 +361,7 @@ export function Navbar() {
                       {voce.etichetta}
                     </span>
                   </span>
-                </NavLink>
+                </Link>
               </li>
             ))}
             <li>
@@ -355,7 +375,7 @@ export function Navbar() {
 
           <div data-piede className="space-y-6">
             <Link
-              to="/contatti"
+              href="/contatti"
               onClick={nascondiMenu}
               className="block rounded-full bg-salvia-600 px-7 py-4 text-center text-sabbia-50"
             >
@@ -376,6 +396,18 @@ export function Navbar() {
                   className="legame transition-colors hover:text-salvia-700"
                 >
                   {studio.telefono}
+                </a>
+              </p>
+              <p>
+                <a
+                  href={linkWhatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={nascondiMenu}
+                  className="legame inline-flex items-center gap-2 transition-colors hover:text-salvia-700"
+                >
+                  <IconaWhatsapp className="h-4 w-4" />
+                  WhatsApp
                 </a>
               </p>
             </div>

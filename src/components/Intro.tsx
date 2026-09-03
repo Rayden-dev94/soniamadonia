@@ -1,5 +1,8 @@
+'use client'
+
 import { useRef } from 'react'
 
+import { Marchio } from '@/components/Marchio'
 import { studio } from '@/data/contenuti'
 import { useIntro } from '@/lib/contestoIntro'
 import { gsap, SplitText, useGSAP } from '@/lib/gsap'
@@ -34,6 +37,25 @@ export function Intro() {
 
       const nome = nomeRef.current
       if (!nome) return
+
+      /**
+       * Il marchio entra subito, separato dal resto.
+       *
+       * Non aspetta i font perché non ne usa: è un'immagine. Aspettandoli, su
+       * un telefono lento la schermata restava vuota per un secondo intero.
+       *
+       * L'animazione agisce sull'elemento intero — opacità, scala e un filo di
+       * risalita — e non su parti interne di un disegno vettoriale: le
+       * trasformazioni sui figli di un SVG sono il punto più fragile del
+       * supporto mobile, ed è lì che il marchio spariva su Android.
+       */
+      gsap.from('[data-simbolo]', {
+        opacity: 0,
+        scale: 0.86,
+        y: 14,
+        duration: 1.2,
+        ease: 'power3.out',
+      })
 
       let annullato = false
       let lettere: SplitText | null = null
@@ -75,52 +97,120 @@ export function Intro() {
               ease: 'power2.in',
             })
 
+          const simboloIntro =
+            ref.current?.querySelector<HTMLElement>('[data-simbolo]')
+          const simboloNav = document.querySelector<HTMLElement>(
+            '[data-simbolo-nav]',
+          )
+
           if (marchio) {
-            // Misure prese ora: durante la dissolvenza qui sopra nulla si sposta.
-            const partenza = nome.getBoundingClientRect()
-            const arrivo = marchio.getBoundingClientRect()
+            /**
+             * L'istante in cui comincia il volo, e la sua durata.
+             *
+             * Girotondo e nome partono **nello stesso momento**. Non è solo una
+             * questione di ritmo: sono uno sopra l'altro nella stessa colonna,
+             * e nell'attimo in cui uno dei due passa a `position: fixed` esce
+             * dal flusso e l'altro risale a riempire il vuoto. Ancorandoli
+             * entrambi nello stesso fotogramma, alle misure prese prima che
+             * qualcosa si muova, nessuno dei due vede spostarsi l'altro.
+             */
+            const VOLO = 0.4
+            const DURATA = 1
+
+            // Tutte le misure vengono prese adesso, mentre entrambi gli
+            // elementi sono ancora nel flusso e fermi.
+            const partenzaNome = nome.getBoundingClientRect()
+            const arrivoNome = marchio.getBoundingClientRect()
             const stileArrivo = getComputedStyle(marchio)
-            const corpoFinale = stileArrivo.fontSize
             // Sopra una foto scura il marchio è chiaro, mentre il nome
             // nell'intro è scuro: senza questa transizione lo scambio finale
             // sarebbe un salto di colore.
             const coloreFinale = stileArrivo.color
+            const corpoFinale = stileArrivo.fontSize
 
-            // Sganciamo il nome dal flusso ancorandolo dov'è già: da fermo, in
-            // `fixed`, l'angolo in alto a sinistra non si muove quando il corpo
-            // del carattere cambia.
-            finale.set(nome, {
-              position: 'fixed',
-              top: partenza.top,
-              left: partenza.left,
-              margin: 0,
-            })
+            const daSimbolo = simboloIntro?.getBoundingClientRect()
+            const aSimbolo = simboloNav?.getBoundingClientRect()
 
-            // Il volo: nessuno `scale`. Animiamo il font-size vero, così il testo
-            // resta disegnato nativamente a ogni fotogramma e atterra con lo
-            // stesso peso ottico del marchio in navbar. È l'unica animazione del
-            // sito che tocca il layout: vale la resa, ed è un elemento solo,
-            // fuori dal flusso, quindi il ricalcolo non si propaga a nulla.
-            finale.to(nome, {
-              top: arrivo.top,
-              left: arrivo.left,
-              fontSize: corpoFinale,
-              color: coloreFinale,
-              duration: 1,
-              ease: 'power3.inOut',
-            })
+            // --- Si sganciano entrambi, nello stesso fotogramma -------------
+            finale.set(
+              nome,
+              {
+                position: 'fixed',
+                top: partenzaNome.top,
+                left: partenzaNome.left,
+                margin: 0,
+              },
+              VOLO,
+            )
+
+            if (simboloIntro && daSimbolo && aSimbolo) {
+              finale.set(
+                simboloIntro,
+                {
+                  position: 'fixed',
+                  top: daSimbolo.top,
+                  left: daSimbolo.left,
+                  width: daSimbolo.width,
+                  height: daSimbolo.height,
+                  margin: 0,
+                  transformOrigin: '0 0',
+                },
+                VOLO,
+              )
+            }
+
+            // --- E volano insieme -------------------------------------------
+            // Il nome anima `font-size`, mai `scale`: scalare il testo con una
+            // trasformazione ne falsa spessore e antialiasing, e all'arrivo si
+            // vedrebbe lo stacco con il testo vero della navbar.
+            finale.to(
+              nome,
+              {
+                top: arrivoNome.top,
+                left: arrivoNome.left,
+                fontSize: corpoFinale,
+                color: coloreFinale,
+                duration: DURATA,
+                ease: 'power3.inOut',
+              },
+              VOLO,
+            )
+
+            // Il marchio usa `scale`: è un elemento HTML, dove le
+            // trasformazioni funzionano su qualunque browser.
+            if (simboloIntro && daSimbolo && aSimbolo) {
+              finale.to(
+                simboloIntro,
+                {
+                  top: aSimbolo.top,
+                  left: aSimbolo.left,
+                  scale: aSimbolo.width / daSimbolo.width,
+                  duration: DURATA,
+                  ease: 'power3.inOut',
+                },
+                VOLO,
+              )
+            }
 
             finale.to(
               '[data-sfondo]',
-              { opacity: 0, duration: 1, ease: 'power2.inOut' },
-              '<',
+              { opacity: 0, duration: DURATA, ease: 'power2.inOut' },
+              VOLO,
             )
 
-            // Atterrato, i due testi sono sovrapponibili al pixel: stesso
-            // carattere, stesso corpo, stessa interlinea, stessa posizione.
-            // Lo scambio è istantaneo di proposito — una dissolvenza incrociata
-            // fra due scritte identiche darebbe un avvallamento di opacità.
-            finale.set(marchio, { opacity: 1 }).set(nome, { opacity: 0 })
+            // --- Atterraggio --------------------------------------------------
+            // I due testi sono sovrapponibili al pixel: stesso carattere, stesso
+            // corpo, stessa interlinea, stessa posizione. Lo scambio è
+            // istantaneo di proposito — una dissolvenza incrociata fra due
+            // scritte identiche darebbe un avvallamento di opacità.
+            //
+            // Si accende il blocco intero (simbolo più nome), non il solo testo
+            // misurato: quello vive dentro un contenitore trasparente.
+            const ATTERRAGGIO = VOLO + DURATA
+            finale
+              .set('[data-marchio-blocco]', { opacity: 1 }, ATTERRAGGIO)
+              .set(nome, { opacity: 0 }, ATTERRAGGIO)
+              .set('[data-simbolo]', { opacity: 0 }, ATTERRAGGIO)
           } else {
             finale.to('[data-sfondo]', {
               opacity: 0,
@@ -132,13 +222,18 @@ export function Intro() {
 
         lineaTemporale.current = gsap
           .timeline({ onComplete: uscita })
-          .set(nome, { opacity: 1 })
-          .from(lettere.chars, {
-            yPercent: 120,
-            duration: 1.1,
-            ease: 'power4.out',
-            stagger: 0.035,
-          })
+
+          .set(nome, { opacity: 1 }, 0)
+          .from(
+            lettere.chars,
+            {
+              yPercent: 120,
+              duration: 1.1,
+              ease: 'power4.out',
+              stagger: 0.035,
+            },
+            0,
+          )
           .fromTo(
             '[data-linea]',
             { scaleX: 0 },
@@ -220,6 +315,11 @@ export function Intro() {
       <div data-sfondo className="absolute inset-0 bg-sabbia-50" />
 
       <div className="relative flex flex-col items-center px-6 text-center">
+        {/* Il marchio apre la scena e poi vola al suo posto nella navbar. */}
+        <div data-simbolo className="mb-9 sm:mb-11">
+          <Marchio className="h-24 w-auto sm:h-28" />
+        </div>
+
         <p
           ref={nomeRef}
           className="font-display text-4xl leading-none text-inchiostro-900 opacity-0 sm:text-6xl lg:text-7xl"

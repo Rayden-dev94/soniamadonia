@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"
+     fill="none" stroke="#587462" stroke-width="3.2"
+     stroke-linecap="round" stroke-linejoin="round">
+  <title>Ψ — simbolo della psicologia</title>
+  <!--
+    Versione autonoma del simbolo, utile fuori dal sito (firme, documenti,
+    social). Colore fisso salvia; nel sito il componente React eredita invece
+    il colore dal testo che lo contiene.
+
+    Volutamente privo di cerchi, monogrammi e fregi: sono quelli a rendere
+    riconoscibile l'emblema di un Ordine, che è marchio registrato. La sola
+    lettera greca è di dominio pubblico.
+  -->
+  <path d="M24 5V43"/>
+  <path d="M12 13v11a12 12 0 0 0 24 0V13"/>
+</svg>

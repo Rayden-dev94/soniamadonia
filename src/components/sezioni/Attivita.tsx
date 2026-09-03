@@ -1,3 +1,5 @@
+'use client'
+
 import { collaborazioni, pubblicazione } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
 

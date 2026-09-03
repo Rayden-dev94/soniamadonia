@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Strato di colore dietro tutto il sito.
  *

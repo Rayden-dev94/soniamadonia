@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 
 import { ritratto, studio } from '@/data/contenuti'

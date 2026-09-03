@@ -13,12 +13,18 @@ quel file, è il sito a essere sbagliato.**
 
 | Cosa            | Versione                                    |
 | --------------- | ------------------------------------------- |
-| Build tool      | Vite 8                                      |
-| UI              | React 19 + TypeScript 6 (strict)            |
-| Stili           | Tailwind CSS 4 (`@tailwindcss/vite`)        |
-| Animazioni      | GSAP 3 + ScrollTrigger + `@gsap/react`      |
-| Routing         | React Router 8                              |
+| Framework       | Next.js 16 (App Router, esportazione statica) |
+| UI              | React 19 + TypeScript (strict)              |
+| Stili           | Tailwind CSS 4 (via PostCSS)                |
+| Animazioni      | GSAP 3 + ScrollTrigger + SplitText          |
+| Font            | Fraunces + Inter, ospitati in locale        |
 | Lint            | oxlint                                      |
+
+`next.config.ts` usa `output: 'export'`: la build produce una cartella `out/`
+di soli file statici, caricabile su qualunque hosting — anche condiviso, senza
+Node. Il prezzo è che l'ottimizzazione automatica delle immagini, che richiede
+un server, resta disattivata: le foto vanno ridimensionate a mano prima di
+metterle in `public/`.
 
 ## Misurare le prestazioni
 
@@ -34,10 +40,21 @@ esterna e anticipa l'avvio dell'intro.
 
 ## Comandi
 
+> ### ⚠️ La build deve usare webpack
+>
+> `npm run build` esegue `next build --webpack`. **Non togliere quel flag.**
+>
+> Con Turbopack — predefinito in Next 16 — l'esportazione statica produce un
+> sito che *non si idrata*: l'HTML arriva, gli script si scaricano, i moduli
+> vengono eseguiti, nessun errore compare, ma React non riprende mai la pagina.
+> Il sito resta muto e tutto ciò che aspetta GSAP resta invisibile.
+>
+> È un guasto silenzioso — build verde, nessun avviso — e costa ore da
+> diagnosticare. Riscontrato con Next 16.3.4 e verificato su iOS 18.7.
+
 ```bash
-npm run dev      # server di sviluppo
-npm run build    # typecheck + build di produzione in dist/
-npm run preview  # anteprima della build di produzione
+npm run dev      # server di sviluppo Next
+npm run build    # build statica in out/
 npm run lint     # oxlint
 ```
 
@@ -200,15 +217,55 @@ sezione che usa `useRivela()`. Lo stato iniziale `opacity: 0` è già in CSS, pe
 evitare il flash di contenuto prima che parta il JS; con
 `prefers-reduced-motion: reduce` le animazioni vengono disattivate.
 
+## SEO
+
+Ogni pagina imposta `<title>`, meta description e canonical tramite `useSeo`.
+
+In `index.html`, in HTML **statico**, ci sono i dati strutturati (JSON-LD) e i
+meta per le anteprime social. Statico è la parola importante: i motori li
+leggono al primo passaggio, senza dover eseguire l'applicazione. Il grafo
+dichiara due entità collegate — la persona e lo studio — con professione, sede,
+competenze e le certificazioni coi numeri verificabili.
+
+### Rendering statico
+
+`npm run build` genera **un file HTML completo per ogni rotta**, con il testo
+già dentro. Prima della migrazione un crawler leggeva zero parole su 2.659.
+
+| Pagina | Parole nell'HTML |
+| ------ | ---------------- |
+| `/` | 521 |
+| `/chi-sono` | 790 |
+| `/servizi` | 1476 |
+| `/contatti` | 147 |
+| `/privacy` | 202 |
+| `404.html` | 94 |
+
+I meta di ogni pagina sono dichiarati con `export const metadata` accanto al
+componente: Next li scrive nell'HTML statico. Non c'è più nessun elenco di
+rotte da tenere sincronizzato a mano — una pagina nuova sotto `app/` viene
+generata da sola.
+
+**Mappa del sito e robots sono generati dal codice** (`app/sitemap.ts` e
+`app/robots.ts`), non più file statici che potevano andare fuori sincrono in
+silenzio. `/privacy` è esclusa dalla mappa di proposito: è marcata come da non
+indicizzare, e segnalarla sarebbe una contraddizione.
+
+Aggiungendo una pagina, ricordati di elencarla in `app/sitemap.ts`.
+
 ## Da completare prima di andare online
 
 I contenuti sono ora quelli reali. Restano da verificare:
 
-- [ ] **Dominio** — ovunque è `www.abafriendly.it`, dedotto dall'indirizzo
-      email. Va confermato: compare in `index.html`, `public/sitemap.xml` e
-      `public/robots.txt`
+- [x] **Dominio** — `www.soniamadonia.it`, confermato. Compare in
+      `index.html` (canonical, Open Graph e dati strutturati),
+      `public/sitemap.xml` e `public/robots.txt`. L'email resta invece
+      `@abafriendly.it`: è un dominio diverso, non un refuso
 - [ ] **Partita IVA** — non presente nel documento, ora segnaposto in
       `contenuti.ts` → `studio.partitaIva`
+- [ ] **«Infinito»** — l'ultimo paragrafo arriva troncato dal documento: si
+      interrompe su «alla costruzione di qualcosa». Va completato con le parole
+      della dott.ssa, non inventate (`contenuti.ts` → `opera`)
 - [ ] **Le FAQ** (`contenuti.ts` → `faq`) sono l'unica parte non scritta da lei:
       ricavate dai suoi contenuti, da far leggere e approvare
 - [ ] **Fotografie** — `public/sonia-prova.jpg` è 950×960, troppo piccola;
