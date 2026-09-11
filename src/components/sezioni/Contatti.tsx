@@ -4,6 +4,7 @@ import { useActionState } from 'react'
 
 import type { EsitoInvio } from '@/app/azioni/inviaMessaggio'
 import { inviaMessaggio } from '@/app/azioni/inviaMessaggio'
+import { ProfiliSociali } from '@/components/ProfiliSociali'
 import { IconaWhatsapp } from '@/components/Whatsapp'
 import { immagini, linkWhatsapp, studio } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
@@ -22,7 +23,7 @@ export function Contatti() {
             Dove trovarmi
           </h2>
 
-          <dl data-anim className="mt-8 space-y-4 text-inchiostro-500">
+          <dl data-anim className="mt-8 space-y-4 text-lg text-inchiostro-500">
             <div>
               <dt className="text-sm text-inchiostro-500/70">Email</dt>
               <dd>
@@ -59,6 +60,15 @@ export function Contatti() {
                 </a>
               </dd>
             </div>
+            {/* Dopo WhatsApp e prima della sede: i profili sono un modo di
+                raggiungerla, non un dato anagrafico, e stanno con gli altri
+                canali invece che in fondo all'elenco. */}
+            <div>
+              <dt className="text-sm text-inchiostro-500/70">Profili</dt>
+              <dd>
+                <ProfiliSociali compatta className="-ml-2.5" />
+              </dd>
+            </div>
             <div>
               <dt className="text-sm text-inchiostro-500/70">Sede</dt>
               <dd className="text-inchiostro-900">{studio.citta}</dd>
@@ -78,7 +88,7 @@ export function Contatti() {
 
           <p
             data-anim
-            className="mt-10 max-w-md rounded-2xl border border-sabbia-200 p-6 leading-relaxed text-inchiostro-500"
+            className="mt-10 max-w-md rounded-2xl border border-sabbia-200 p-6 text-lg leading-relaxed text-inchiostro-500"
           >
             Gli incontri possono essere concordati in base alla tipologia di
             richiesta, al luogo di svolgimento e alle esigenze della persona,
@@ -186,7 +196,7 @@ export function Contatti() {
 
             {/* `aria-live` fa annunciare l'esito da uno screen reader: senza,
                 chi non vede lo schermo non saprebbe se l'invio è riuscito. */}
-            <p aria-live="polite" className="text-sm">
+            <p aria-live="polite">
               {esito.stato === 'inviato' && (
                 <span className="text-salvia-700">
                   Messaggio inviato. Ti risponderò personalmente, di norma entro

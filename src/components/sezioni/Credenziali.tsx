@@ -59,7 +59,7 @@ export function Credenziali() {
                 <dt className="font-display text-2xl text-inchiostro-900">
                   {voce.valore}
                 </dt>
-                <dd className="mt-1 text-sm leading-relaxed text-inchiostro-500">
+                <dd className="mt-1 leading-relaxed text-inchiostro-500">
                   {voce.etichetta}
                 </dd>
               </div>
@@ -96,7 +96,7 @@ export function Credenziali() {
 
           {/* Il Ψ accanto all'iscrizione, non da solo: è quella riga che
               rappresenta, e insieme si leggono come una cosa sola. */}
-          <p className="mt-6 flex items-start gap-2.5 text-xs leading-relaxed text-inchiostro-500/70">
+          <p className="mt-6 flex items-start gap-2.5 text-sm leading-relaxed text-inchiostro-500/70">
             <SimboloPsi className="h-4 w-4 shrink-0 text-salvia-500" />
             {studio.albo}
           </p>

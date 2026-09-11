@@ -83,7 +83,7 @@ export function Metodo() {
                 {passaggio.numero}
               </span>
               <h3 className="mt-2 text-2xl">{passaggio.titolo}</h3>
-              <p className="mt-3 max-w-xl leading-relaxed text-inchiostro-500">
+              <p className="mt-3 max-w-xl text-lg leading-relaxed text-inchiostro-500">
                 {passaggio.testo}
               </p>
             </li>

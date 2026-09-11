@@ -26,7 +26,7 @@ export function RichiamoFinale({
           <h2 className="mx-auto max-w-xl text-3xl leading-tight text-sabbia-50 sm:text-4xl">
             {titolo}
           </h2>
-          <p className="mx-auto mt-5 max-w-lg leading-relaxed text-salvia-100">
+          <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-salvia-100">
             {testo}
           </p>
           <Link

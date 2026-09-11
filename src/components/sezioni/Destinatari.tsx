@@ -31,11 +31,11 @@ export function Destinatari() {
             <li
               key={voce}
               data-anim
-              className="flex gap-4 border-b border-sabbia-200 pb-4 leading-relaxed text-inchiostro-500"
+              className="flex gap-4 border-b border-sabbia-200 pb-4 text-lg leading-relaxed text-inchiostro-500"
             >
               <span
                 aria-hidden="true"
-                className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-salvia-400"
+                className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-salvia-400"
               />
               {voce}
             </li>

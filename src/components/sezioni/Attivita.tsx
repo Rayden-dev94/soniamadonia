@@ -26,7 +26,7 @@ export function Attivita() {
         </h2>
         <p
           data-anim
-          className="mt-6 max-w-2xl leading-relaxed text-inchiostro-500"
+          className="mt-6 max-w-2xl text-lg leading-relaxed text-inchiostro-500"
         >
           Collaboro con diverse cooperative sociali del territorio, sia
           all’interno di progetti promossi dalle Aziende Sanitarie Provinciali
@@ -49,7 +49,7 @@ export function Attivita() {
                 <p className="mt-1 text-sm text-inchiostro-500/80">
                   {voce.luogo} — {voce.ruolo}
                 </p>
-                <p className="mt-3 leading-relaxed text-inchiostro-500">
+                <p className="mt-3 text-lg leading-relaxed text-inchiostro-500">
                   {voce.testo}
                 </p>
               </div>
@@ -70,9 +70,23 @@ export function Attivita() {
           <p className="mt-2 text-sm text-inchiostro-500/80">
             {pubblicazione.autore} — {pubblicazione.dettagli}
           </p>
-          <p className="mt-4 max-w-2xl leading-relaxed text-inchiostro-500">
-            {pubblicazione.testo}
-          </p>
+          <div className="mt-4 max-w-2xl space-y-4 text-lg leading-relaxed text-inchiostro-500">
+            {pubblicazione.paragrafi.map((paragrafo) => (
+              <p key={paragrafo.slice(0, 24)}>{paragrafo}</p>
+            ))}
+          </div>
+
+          {/* Contorno e non pieno: qui il libro è una voce del percorso
+              professionale, non l'oggetto della pagina come in home. */}
+          <a
+            href={pubblicazione.linkAcquisto}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Acquista ora su Amazon (si apre in una nuova scheda)"
+            className="bottone-contorno mt-7 inline-block px-7 py-3"
+          >
+            Acquista ora
+          </a>
         </div>
       </div>
     </section>

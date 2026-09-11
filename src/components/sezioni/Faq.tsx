@@ -55,9 +55,13 @@ export function Faq() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="pb-6 leading-relaxed text-inchiostro-500">
-                      {voce.risposta}
-                    </p>
+                    {/* Le risposte sono elenchi di paragrafi: una di loro ne ha
+                        tre, e in un blocco unico sarebbe un muro. */}
+                    <div className="space-y-4 pb-6 text-lg leading-relaxed text-inchiostro-500">
+                      {voce.risposta.map((paragrafo) => (
+                        <p key={paragrafo.slice(0, 24)}>{paragrafo}</p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

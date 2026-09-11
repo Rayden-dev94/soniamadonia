@@ -1,5 +1,8 @@
 'use client'
 
+import { useState } from 'react'
+
+import { FinestraArea } from '@/components/FinestraArea'
 import { Rimando } from '@/components/Rimando'
 import { aree } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
@@ -14,6 +17,23 @@ type Props = {
 
 export function Servizi({ anteprima = false }: Props) {
   const ref = useRivela<HTMLElement>()
+
+  /**
+   * Quale area è aperta, in due valori invece che in uno.
+   *
+   * Con un solo `indice | null`, chiudendo la finestra il contenuto sparirebbe
+   * nello stesso fotogramma in cui comincia la dissolvenza d'uscita: si
+   * vedrebbe una finestra vuota allontanarsi. Tenendo l'indice fermo e
+   * spegnendo solo `aperta`, il contenuto resta al suo posto per tutta
+   * l'uscita, e la volta dopo è già quello giusto.
+   */
+  const [areaAperta, setAreaAperta] = useState(0)
+  const [aperta, setAperta] = useState(false)
+
+  const apri = (indice: number) => {
+    setAreaAperta(indice)
+    setAperta(true)
+  }
 
   if (anteprima) {
     return (
@@ -32,29 +52,52 @@ export function Servizi({ anteprima = false }: Props) {
           {/* Ogni scheda porta la stessa immagine che l'area avrà nella pagina
               Servizi: chi ci arriva la ritrova e riconosce dove si trova. */}
           <div className="mt-14 grid gap-6 sm:grid-cols-2">
-            {aree.map((area) => (
+            {aree.map((area, indice) => (
               <article
                 key={area.titolo}
                 data-anim
-                className="overflow-hidden rounded-3xl border border-sabbia-200 bg-sabbia-50/80 transition-colors duration-300 hover:border-salvia-400"
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-sabbia-200 bg-sabbia-50/80 transition-colors duration-300 hover:border-salvia-400 focus-within:border-salvia-400"
               >
-                <img
-                  src={area.immagine}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-16/9 w-full object-cover"
-                />
-                <div className="p-8">
+                <div className="overflow-hidden">
+                  <img
+                    src={area.immagine}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                    className="ease-morbido aspect-16/9 w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                  />
+                </div>
+
+                <div className="flex grow flex-col p-8">
                   <h3 className="text-xl">{area.titolo}</h3>
-                  <p className="mt-4 leading-relaxed text-inchiostro-500">
+                  {/* `mb-6` insieme al `mt-auto` del pulsante: l'automatico da
+                      solo garantisce che stia in fondo, non che ci sia dello
+                      spazio sopra quando la scheda è corta. */}
+                  <p className="mt-4 mb-6 text-lg leading-relaxed text-inchiostro-500">
                     {area.sommario}
                   </p>
-                  <p className="mt-5 text-sm text-salvia-600">
-                    {area.servizi.length}{' '}
-                    {area.servizi.length === 1 ? 'servizio' : 'servizi'}
-                  </p>
+
+                  {/* Lo stesso pulsante verde del resto del sito: qui serve
+                      che si veda che c'è qualcosa da aprire, e un comando già
+                      noto lo dice meglio di uno inventato per l'occasione.
+
+                      `mt-auto` lo tiene in fondo: i sommari sono di lunghezze
+                      diverse, e senza, i quattro pulsanti starebbero a quattro
+                      altezze diverse.
+
+                      Il bersaglio è il pulsante, non la scheda intera: il velo
+                      che sale al passaggio del mouse ha bisogno di
+                      `overflow: hidden`, che ritaglierebbe qualunque area
+                      cliccabile stesa oltre i suoi bordi. */}
+                  <button
+                    type="button"
+                    onClick={() => apri(indice)}
+                    aria-label={`Scopri di più su ${area.titolo}`}
+                    className="bottone-verde mt-auto w-fit px-7 py-3"
+                  >
+                    Scopri di più
+                  </button>
                 </div>
               </article>
             ))}
@@ -64,6 +107,17 @@ export function Servizi({ anteprima = false }: Props) {
             Tutti i servizi nel dettaglio
           </Rimando>
         </div>
+
+        {/* Una sola finestra per tutte e quattro le schede: il contenuto
+            cambia, l'elemento no. Quattro `<dialog>` sempre montati sarebbero
+            quattro copie dello stesso guscio in attesa di non essere usate. */}
+        <FinestraArea
+          area={aree[areaAperta]}
+          indice={areaAperta}
+          totale={aree.length}
+          aperta={aperta}
+          onChiudi={() => setAperta(false)}
+        />
       </section>
     )
   }
@@ -127,7 +181,7 @@ export function Servizi({ anteprima = false }: Props) {
                     </h3>
 
                     <div>
-                      <p className="misura leading-relaxed text-inchiostro-500">
+                      <p className="misura text-lg leading-relaxed text-inchiostro-500">
                         {servizio.testo}
                       </p>
 
@@ -136,11 +190,11 @@ export function Servizi({ anteprima = false }: Props) {
                           {servizio.elenco.map((voce) => (
                             <li
                               key={voce}
-                              className="flex gap-3 text-sm leading-relaxed text-inchiostro-500"
+                              className="flex gap-3 leading-relaxed text-inchiostro-500"
                             >
                               <span
                                 aria-hidden="true"
-                                className="mt-2 h-1 w-1 shrink-0 rounded-full bg-salvia-500"
+                                className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-salvia-500"
                               />
                               {voce}
                             </li>

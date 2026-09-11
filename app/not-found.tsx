@@ -10,7 +10,7 @@ export default function NonTrovata() {
         <h1 className="mt-5 text-3xl leading-tight sm:text-4xl">
           Questa pagina non esiste.
         </h1>
-        <p className="mt-6 leading-relaxed text-inchiostro-500">
+        <p className="mt-6 text-lg leading-relaxed text-inchiostro-500">
           Forse il link è cambiato, o c’è un refuso nell’indirizzo. Puoi tornare
           alla home e ripartire da lì.
         </p>

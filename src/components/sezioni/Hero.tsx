@@ -83,7 +83,24 @@ export function Hero() {
               fetchPriority="high"
               decoding="async"
               style={{ objectPosition: fotoHero.inquadratura }}
-              className="absolute inset-0 h-full w-full object-cover opacity-0"
+              /**
+               * Lo spostamento a destra, solo da 1024px in su.
+               *
+               * `object-position` qui non servirebbe a niente: su schermo largo
+               * la foto è scalata per coprire la larghezza, quindi in
+               * orizzontale non avanza nulla e qualunque valore lascerebbe
+               * l'immagine dov'è. Lo spazio di manovra va creato, ed è quello
+               * che fa `lg:w-[106%]`: il riquadro dell'immagine diventa più
+               * largo del contenitore restando agganciato al bordo sinistro,
+               * quindi cresce verso destra e con sé porta il soggetto. Quello
+               * che esce dal bordo destro lo taglia il riquadro.
+               *
+               * Per spostarla dall'altra parte basta agganciarla a destra
+               * invece che a sinistra, aggiungendo `lg:left-[-6%]`.
+               *
+               * Su telefono non si applica: lì l'inquadratura va già bene.
+               */
+              className="absolute inset-y-0 left-0 h-full w-full object-cover opacity-0 lg:w-[106%]"
             />
           )}
 
@@ -126,7 +143,7 @@ export function Hero() {
                   nella sezione subito sotto. */}
               <p
                 data-anim
-                className="mt-6 hidden max-w-lg leading-relaxed text-sabbia-100/90 sm:block"
+                className="mt-6 hidden max-w-lg text-lg leading-relaxed text-sabbia-100/90 sm:block"
               >
                 Oltre quindici anni di esperienza nell’Analisi del Comportamento
                 Applicata (ABA), a {studio.citta} e nel territorio.

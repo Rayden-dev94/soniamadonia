@@ -18,7 +18,10 @@ export function Opera() {
   const ref = useRivela<HTMLElement>()
 
   return (
-    <section ref={ref} className="pb-24 sm:pb-32">
+    // Da quando sopra c'è la sezione del libro, con il suo fondo sabbia, questa
+    // ha bisogno di uno spazio suo in cima: senza, l'occhiello «Un'opera
+    // collettiva» partiva incollato al bordo della banda colorata.
+    <section ref={ref} className="py-24 sm:py-32">
       <div className="contenitore">
         <p
           data-anim
@@ -47,6 +50,17 @@ export function Opera() {
               {paragrafo}
             </p>
           ))}
+
+          {/* La chiusura si stacca dal corpo del testo: un filo salvia a
+              sinistra, il carattere dei titoli e un colore più pieno. Non è una
+              citazione da qualcun altro — è la sua frase finale — quindi niente
+              virgolette né corsivo, solo il peso che le spetta. */}
+          <p
+            data-anim
+            className="border-l-2 border-salvia-400 pt-2 pl-6 font-display text-xl leading-relaxed text-inchiostro-900 sm:text-2xl"
+          >
+            {opera.chiusura}
+          </p>
         </div>
       </div>
     </section>

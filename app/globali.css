@@ -26,6 +26,33 @@
   --ease-morbido: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/**
+ * La scala del testo, in tre gradini e non uno di più.
+ *
+ * Non è una regola CSS ma la convenzione a cui attenersi scrivendo i
+ * componenti. Prima non c'era, e lo stesso tipo di contenuto finiva in tre
+ * corpi diversi a seconda della sezione: la spiegazione delle certificazioni
+ * stava in 14px mentre la presentazione in home stava in 18px, e a leggerlo si
+ * sentiva prima ancora di misurarlo.
+ *
+ * - `text-lg` (18px) — **prosa**. Qualunque testo scritto per essere letto per
+ *   intero: paragrafi, voci di elenco discorsive, risposte delle FAQ, recapiti.
+ *   È il corpo predefinito del sito.
+ *
+ * - nessuna classe (16px) — **contenuto di supporto**. Testo vero, ma dentro a
+ *   una scheda o accanto a qualcos'altro che regge la gerarchia: descrizioni
+ *   delle certificazioni, elenchi di competenze, didascalie dei dati.
+ *
+ * - `text-sm` (14px) — **etichette**. Cose che si guardano, non che si leggono:
+ *   occhielli maiuscoletti, numeri di certificazione, `dt` dei recapiti,
+ *   etichette dei campi, piè di pagina, note deontologiche brevi.
+ *
+ * Sotto i 14px si scende in un caso solo, e resta quello: l'occhiello sopra la
+ * foto dell'hero, che su telefono va in 12px perché lì lo spazio è conteso
+ * davvero — ed è maiuscoletto spaziato, che si legge più grande del suo corpo.
+ * `text-xs` è invece stato tolto dall'iscrizione all'Albo in home: quella è
+ * un'informazione da leggere, non un'etichetta.
+ */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -112,6 +139,85 @@
     color-mix(in oklab, var(--color-salvia-200) 45%, transparent) 45%,
     transparent 72%
   );
+}
+
+/**
+ * Entrata e uscita della finestra modale delle aree.
+ *
+ * Un `<dialog>` aperto con `showModal()` finisce nel livello superiore, e
+ * chiudendosi torna a `display: none`. Sono due proprietà discrete — o sei
+ * visibile o non lo sei — e una transizione normale le salterebbe: la finestra
+ * comparirebbe di colpo entrando e, peggio, sparirebbe di colpo uscendo,
+ * perché l'elemento smette di esistere prima che l'animazione cominci.
+ *
+ * `transition-behavior: allow-discrete` è ciò che rende animabile quel salto:
+ * il browser tiene in vita `display` e `overlay` fino alla fine della
+ * transizione. `@starting-style` fornisce il fotogramma di partenza, che
+ * altrimenti non esisterebbe — l'elemento nasce già nel suo stato finale.
+ *
+ * È l'unico punto del sito in cui un'animazione non passa da GSAP, e non è una
+ * distrazione: nessuna libreria può animare il livello superiore, perché non è
+ * una proprietà che si possa interpolare da JavaScript.
+ *
+ * Si muovono solo opacità e trasformazioni. Il fondo scuro non è sfocato di
+ * proposito: `backdrop-filter` costerebbe una risfocatura a ogni fotogramma
+ * dell'intera pagina sottostante, che è esattamente il tipo di effetto che
+ * questo progetto ha già tolto altrove.
+ */
+[data-finestra] {
+  opacity: 0;
+  scale: 0.97;
+  translate: 0 1rem;
+  transition:
+    opacity 0.4s var(--ease-morbido),
+    scale 0.4s var(--ease-morbido),
+    translate 0.4s var(--ease-morbido),
+    overlay 0.4s var(--ease-morbido) allow-discrete,
+    display 0.4s var(--ease-morbido) allow-discrete;
+}
+
+[data-finestra][open] {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+}
+
+@starting-style {
+  [data-finestra][open] {
+    opacity: 0;
+    scale: 0.97;
+    translate: 0 1rem;
+  }
+}
+
+[data-finestra]::backdrop {
+  background-color: color-mix(
+    in oklab,
+    var(--color-inchiostro-900) 62%,
+    transparent
+  );
+  opacity: 0;
+  transition:
+    opacity 0.4s var(--ease-morbido),
+    overlay 0.4s var(--ease-morbido) allow-discrete,
+    display 0.4s var(--ease-morbido) allow-discrete;
+}
+
+[data-finestra][open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  [data-finestra][open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-finestra],
+  [data-finestra]::backdrop {
+    transition-duration: 1ms;
+  }
 }
 
 @utility contenitore {

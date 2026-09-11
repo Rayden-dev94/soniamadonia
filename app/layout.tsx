@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { Fraunces, Inter } from 'next/font/google'
 
 import { Guscio } from '@/app/Guscio'
-import { seo, studio } from '@/data/contenuti'
-import { immagineSocial } from '@/lib/seo'
+import { profiliAttivi, pubblicazione, seo, studio } from '@/data/contenuti'
+import { DOMINIO, immagineSocial } from '@/lib/seo'
 
 import './globali.css'
 
@@ -27,8 +27,6 @@ const inter = Inter({
   variable: '--font-inter',
   display: 'swap',
 })
-
-const DOMINIO = 'https://www.soniamadonia.it'
 
 /**
  * Meta della home e valori predefiniti per tutte le pagine.
@@ -97,9 +95,17 @@ const datiStrutturati = {
       alternateName: studio.nome,
       jobTitle: studio.ruolo,
       url: `${DOMINIO}/`,
-      image: `${DOMINIO}/sonia-prova.jpg`,
+      image: `${DOMINIO}/sonia.jpg`,
       telephone: '+393289615159',
       email: studio.email,
+      /**
+       * I profili dove la stessa persona è già presente.
+       *
+       * È la dichiarazione che collega un dominio nuovo a un'identità che i
+       * motori di ricerca conoscono da anni: senza, il sito è una pagina che
+       * afferma di appartenere a una certa persona e nient'altro.
+       */
+      sameAs: profiliAttivi.map((profilo) => profilo.url),
       alumniOf: {
         '@type': 'CollegeOrUniversity',
         name: 'Università degli Studi di Palermo',
@@ -160,6 +166,24 @@ const datiStrutturati = {
         { '@type': 'AdministrativeArea', name: 'Sicilia' },
       ],
       availableLanguage: 'it',
+    },
+    /**
+     * Il manuale, ora che è in home.
+     *
+     * Legato all'autrice per `@id` invece che ripeterne il nome: è così che il
+     * grafo dice «questo libro è di quella persona» e non «di una qualsiasi
+     * omonima».
+     */
+    {
+      '@type': 'Book',
+      '@id': `${DOMINIO}/#libro`,
+      name: pubblicazione.titolo,
+      author: { '@id': `${DOMINIO}/#persona` },
+      description: pubblicazione.paragrafi[0],
+      image: `${DOMINIO}${pubblicazione.copertina}`,
+      url: pubblicazione.linkAcquisto,
+      inLanguage: 'it',
+      datePublished: '2022',
     },
   ],
 }

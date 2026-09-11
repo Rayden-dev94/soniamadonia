@@ -86,7 +86,10 @@ export function ChiSono() {
               <p className="mt-2 font-display text-sm text-salvia-600">
                 {certificazione.numero}
               </p>
-              <p className="mt-4 text-sm leading-relaxed text-inchiostro-500">
+              {/* Non è testo di servizio: è la spiegazione di che cosa attesta
+                  ogni certificazione, cioè la parte che deve convincere. In
+                  corpo minore veniva letta come una postilla. */}
+              <p className="mt-4 leading-relaxed text-inchiostro-500">
                 {certificazione.testo}
               </p>
             </article>
@@ -97,7 +100,7 @@ export function ChiSono() {
             certificazione non è un Albo. Non va rimossa. */}
         <p
           data-anim
-          className="mt-8 max-w-3xl rounded-2xl border border-sabbia-200 bg-sabbia-100/55 p-6 text-sm leading-relaxed text-inchiostro-500"
+          className="mt-8 max-w-3xl rounded-2xl border border-sabbia-200 bg-sabbia-100/55 p-6 leading-relaxed text-inchiostro-500"
         >
           {notaCertificazioni}
         </p>
@@ -113,7 +116,7 @@ export function ChiSono() {
               <li
                 key={voce}
                 data-anim
-                className="py-4 leading-relaxed text-inchiostro-500"
+                className="py-4 text-lg leading-relaxed text-inchiostro-500"
               >
                 {voce}
               </li>
@@ -130,11 +133,11 @@ export function ChiSono() {
               <li
                 key={principio}
                 data-anim
-                className="flex gap-3 leading-relaxed text-inchiostro-500"
+                className="flex gap-3 text-lg leading-relaxed text-inchiostro-500"
               >
                 <span
                   aria-hidden="true"
-                  className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-salvia-500"
+                  className="mt-3 h-1 w-1 shrink-0 rounded-full bg-salvia-500"
                 />
                 {principio}
               </li>

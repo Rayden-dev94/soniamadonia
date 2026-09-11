@@ -14,7 +14,7 @@ export function Privacy() {
           Informativa privacy
         </h1>
 
-        <div className="mt-10 space-y-8 leading-relaxed text-inchiostro-500">
+        <div className="mt-10 space-y-8 text-lg leading-relaxed text-inchiostro-500">
           <div>
             <h2 className="text-xl">Titolare del trattamento</h2>
             <p className="mt-3">

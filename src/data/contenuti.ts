@@ -15,8 +15,12 @@ export const studio = {
   email: 'soniamadonia@abafriendly.it',
   telefono: '+39 328 961 5159',
   citta: 'Gela (CL)',
-  /** Nessuna partita IVA nel documento: da chiedere prima della pubblicazione. */
-  partitaIva: 'P. IVA da inserire',
+  /**
+   * Fornita dalla dott.ssa il 5 settembre 2026. Compare nel piè di pagina e
+   * nell'informativa privacy: per un professionista con partita IVA che si
+   * presenta online è un'indicazione dovuta, non un dettaglio amministrativo.
+   */
+  partitaIva: 'P. IVA 02091900858',
 }
 
 /**
@@ -38,21 +42,95 @@ export const linkWhatsapp = `https://wa.me/${whatsapp.numero}?text=${encodeURICo
 /**
  * Fotografie della professionista.
  *
- * `/sonia-prova.jpg` è la foto di prova: 950×960 px, troppo piccola per la
- * pubblicazione. Per la versione definitiva serve almeno 2000 px di lato lungo.
+ * `/sonia.jpg` è il ritratto professionale definitivo: 2710×3387 px, cioè
+ * esattamente il 4:5 del riquadro del ritratto — che quindi non taglia nulla.
+ * Sostituisce `sonia-prova.jpg`, che era 950×960 e non bastava per nessuno dei
+ * due usi.
+ *
+ * Il file è tenuto alla risoluzione originale: ricomprimerlo con gli strumenti
+ * di sistema lo faceva *crescere* a parità di lato, segno che è già codificato
+ * bene. 486 KB per l'immagine più grande del sito sono accettabili.
  */
 export const ritratto = {
-  file: '/sonia-prova.jpg' as string | null,
+  file: '/sonia.jpg' as string | null,
   alt: `${studio.nome}, ${studio.ruolo.toLowerCase()}`,
-  inquadratura: 'center 20%',
+  // Il riquadro è 4:5 come la foto: non c'è ritaglio, e l'inquadratura non ha
+  // niente da spostare.
+  inquadratura: 'center',
 }
 
-/** Foto grande della prima schermata. */
+/**
+ * Foto grande della prima schermata.
+ *
+ * Il riquadro è largo quanto lo schermo e alto quanto la finestra: del ritratto
+ * verticale ne resta visibile una fascia di poco più di un terzo.
+ * `inquadratura` decide **quale** fascia, non quanto è alta.
+ *
+ * Il secondo valore va letto al contrario di come sembra: è la posizione della
+ * finestra di ritaglio lungo la foto, quindi alzandolo la finestra scende e la
+ * foto sale. Da 18% a 26% l'immagine si alza di circa il 3% della propria
+ * altezza.
+ *
+ * Su telefono non ha alcun effetto: lì il riquadro è più alto che largo, la
+ * foto è scalata per coprire l'altezza e il ritaglio avviene sui lati.
+ * Lo spostamento a sinistra è per lo stesso motivo in `Hero.tsx` e non qui —
+ * sull'orizzontale, da 1024px in su, non c'è niente da spostare finché non
+ * glielo si crea.
+ */
 export const fotoHero = {
-  file: '/sonia-prova.jpg' as string | null,
-  alt: `${studio.nome} nel suo studio`,
-  inquadratura: 'center 18%',
+  file: '/sonia.jpg' as string | null,
+  alt: `${studio.nome}, ${studio.ruolo.toLowerCase()}`,
+  inquadratura: 'center 26%',
 }
+
+/**
+ * I profili della professionista altrove sul web.
+ *
+ * Servono a due cose diverse con lo stesso elenco: le icone nel piè di pagina e
+ * nei contatti, e la dichiarazione `sameAs` nei dati strutturati — il modo
+ * esplicito di dire a un motore di ricerca «la persona di questo sito è quella
+ * che già conosci altrove». Per un dominio appena nato, senza cronologia e
+ * senza collegamenti in entrata, è uno dei pochi segnali di identità
+ * disponibili.
+ *
+ * Gli indirizzi sono nella forma canonica. Quello di LinkedIn arrivava con il
+ * suffisso `/en` e la coda `?trk=people-guest_people_search-card`: descrive da
+ * quale schermata è stato copiato, non la pagina, e in un dato strutturato è
+ * rumore che può anche cambiare nel tempo.
+ *
+ * La scheda del libro su Amazon **non** va qui: identifica il volume, non la
+ * persona, ed è già l'indirizzo del nodo `Book` nei dati strutturati.
+ */
+export const profili = [
+  {
+    nome: 'Facebook',
+    url: 'https://www.facebook.com/sonia.madonia.35/',
+  },
+  {
+    nome: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/sonia-madonia-b541a822a/',
+  },
+  {
+    /**
+     * ⚠️ Da completare: l'indirizzo fornito era quello di un singolo post
+     * (`/p/DZCGC2GIk6G/`), non del profilo. Serve la forma
+     * `https://www.instagram.com/<nomeutente>/` — sia perché un'icona deve
+     * portare al profilo e non a un contenuto che invecchia, sia perché in
+     * `sameAs` un post non identifica la persona.
+     */
+    nome: 'Instagram',
+    url: '',
+  },
+]
+
+/**
+ * I soli profili con un indirizzo vero.
+ *
+ * Finché a uno manca l'indirizzo non compare da nessuna parte: né come icona
+ * che non porta in nessun posto, né come `sameAs` vuoto nei dati strutturati,
+ * che è peggio di un `sameAs` assente.
+ */
+export const profiliAttivi = profili.filter((profilo) => profilo.url !== '')
 
 export const navigazione = [
   { etichetta: 'Chi sono', href: '/chi-sono' },
@@ -135,9 +213,11 @@ export const credenziali = [
  * precisa nella comunità autistica, e il testo la rende esplicita. Non
  * sostituire né l'immagine né le parole con qualcosa di più «neutro».
  *
- * ⚠️ L'ultima frase arriva troncata dal documento fornito: si interrompe su
- * «alla costruzione di qualcosa». Va completata con le parole della dott.ssa
- * prima di pubblicare — non inventate.
+ * Il testo è la versione integrale fornita dalla dott.ssa il 5 settembre 2026,
+ * che sostituisce quella troncata del primo documento: si fermava su «alla
+ * costruzione di qualcosa» e le mancavano il nome dei Tucarù, l'idea dell'opera
+ * che resta aperta e la frase di chiusura. Sono le tre cose che la fanno finire
+ * invece di interrompersi: da qui in poi si tocca solo con parole sue.
  */
 export const opera = {
   occhiello: 'Un’opera collettiva',
@@ -145,10 +225,18 @@ export const opera = {
   immagine: '/opera-infinito.jpg',
   alt: 'Infinito: trittico su tela in cui il simbolo dell’infinito è composto da centinaia di impronte digitali colorate, trasformate in piccoli animali.',
   paragrafi: [
-    'Infinito è un’opera collettiva realizzata con le impronte dei bambini e dei ragazzi con diagnosi di autismo che seguo nell’ambito dei progetti promossi dalle ASP di Caltanissetta e Catania, presso le Cooperative Carpe Diem di Gela e Zeno Saltini di Caltagirone.',
-    'Alle loro impronte si uniscono quelle delle tante persone che, con ruoli diversi, fanno parte della nostra rete: tecnici del comportamento, educatori, insegnanti, tirocinanti, fotografi, rappresentanti delle istituzioni e responsabili delle cooperative e molti altri.',
-    'Tutte queste impronte, diverse tra loro, si incontrano e formano un unico infinito. Sono stati proprio alcuni ragazzi con diagnosi di autismo a farmene comprendere il significato più profondo: non sono pezzi di un puzzle e nessuno di noi lo è. Ogni persona è unica e completa, ma può entrare in relazione con gli altri e contribuire con le proprie caratteristiche e i propri talenti alla costruzione di qualcosa.',
+    'Infinito è un’opera collettiva realizzata con le impronte dei bambini e dei ragazzi con diagnosi di autismo che seguo nell’ambito dei progetti promossi dalle ASP di Caltanissetta e Catania presso le cooperative Carpe Diem di Gela e Zeno Saltini di Caltagirone.',
+    'Alle loro impronte si uniscono quelle delle tante persone che, con ruoli diversi, fanno parte della nostra rete: tecnici del comportamento, educatori, insegnanti, tirocinanti, fotografi, rappresentanti delle istituzioni, giornalisti, assistenti sociali, responsabili delle cooperative e molti altri.',
+    'Tutte queste impronte, diverse tra loro, si incontrano e formano un unico infinito. Sono stati proprio alcuni ragazzi con diagnosi di autismo, i Tucarù, a farmene comprendere il significato più profondo: non sono pezzi di un puzzle e nessuno di noi lo è. Ogni persona è unica e completa e, nell’incontro con gli altri, può esprimere le proprie caratteristiche e i propri talenti, contribuendo a creare qualcosa che nessuno potrebbe costruire da solo.',
+    'Per questo, l’opera non sarà mai definitivamente conclusa: resterà aperta ad accogliere ogni nuova mano che vorrà unirsi, lasciando la propria impronta e diventando parte di questo infinito.',
   ],
+  /**
+   * L'ultima riga sta fuori dall'elenco perché non è un paragrafo come gli
+   * altri: è la frase che chiude, e nel testo della dott.ssa arriva dopo una
+   * pausa. Trattata come le precedenti si perderebbe in fondo alla colonna.
+   */
+  chiusura:
+    'È questo il significato più autentico di Infinito: da soli si può andare più veloci, ma insieme si arriva più lontano.',
 }
 
 /** A chi si rivolgono i servizi. */
@@ -226,12 +314,30 @@ export const aree = [
     sommario:
       'La messa in pratica: supervisione degli operatori, parent training, monitoraggio dei progressi sui dati.',
     /**
-     * ⚠️ Ritrae un MINORE durante un intervento.
+     * Ritrae un minore durante un intervento — **con il volto offuscato**.
      *
-     * Non basta il consenso generico: serve quello scritto di **entrambi** i
-     * genitori o di chi esercita la responsabilità genitoriale, specifico per
-     * la pubblicazione sul web. Il fatto che il contesto lasci intuire una
-     * diagnosi lo rende un dato particolarissimo ai sensi del GDPR.
+     * L'offuscamento è cotto nei pixel del file, non applicato con un filtro
+     * nel browser: un velo CSS avrebbe lasciato l'originale scaricabile
+     * all'indirizzo di sempre, cioè non avrebbe protetto nessuno.
+     *
+     * La sfocatura è leggera — sigma 8 su un'immagine di 1000px — e sfuma fra
+     * il 38% e il 50% della larghezza, chiudendosi prima del viso della
+     * dott.ssa, che resta nitido. Legge come una profondità di campo, non come
+     * una censura.
+     *
+     * Otto è il minimo che funziona, e la misura è stata presa guardando: a
+     * sigma 5 i lineamenti del bambino, gli occhiali e l'espressione si
+     * leggevano ancora, quindi la fotografia restava un dato personale.
+     * Abbassarlo ancora vanifica l'operazione.
+     *
+     * ⚠️ Resta una cosa da fare, ed è fuori dal codice: la fotografia originale
+     * **è ancora nella cronologia di git**, perché il file era già stato
+     * committato prima dell'offuscamento. Chiunque abbia accesso al repository
+     * può recuperarla. Per toglierla davvero serve riscrivere la cronologia.
+     *
+     * Il contesto lascia intuire una diagnosi, che ai sensi del GDPR è un dato
+     * particolarissimo: con il volto coperto la fotografia non è più un dato
+     * personale, ma finché l'originale è recuperabile la questione non è chiusa.
      */
     immagine: '/intervento.jpg',
     servizi: [
@@ -263,14 +369,21 @@ export const aree = [
     ],
   },
   {
-    titolo: 'Scuola, équipe e organizzazioni',
+    titolo: 'Servizi per scuole, équipe ed enti',
     sommario:
       'Il lavoro con i contesti: consulenza scolastica, coordinamento dell’équipe, progettazione di servizi.',
     /**
-     * Foto vera: ritrae persone riconoscibili e richiede il loro consenso
-     * prima della pubblicazione.
+     * La dott.ssa in aula all'Istituto «Luigi Sturzo» di Caltagirone, davanti
+     * a una slide sull'assessment delle competenze. 1600×900, il rapporto in
+     * cui viene ritagliata.
+     *
+     * ⚠️ Delle tre foto delle aree è quella che espone di più: qui la platea è
+     * girata verso di lei e almeno sei persone sono riconoscibili di fronte o
+     * di tre quarti, non di spalle. Prima della pubblicazione serve il consenso
+     * scritto di ciascuna, oppure una foto diversa. Non è un dato sanitario —
+     * sono corsisti — ma restano volti identificabili di persone private.
      */
-    immagine: '/corso-formazione.jpg',
+    immagine: '/scuola-equipe.jpg',
     servizi: [
       {
         titolo: 'Consulenza scolastica',
@@ -294,14 +407,20 @@ export const aree = [
     sommario:
       'Corsi per Tecnici del Comportamento, professionisti sanitari, insegnanti e personale scolastico.',
     /**
-     * Foto vera, non un'immagine d'ambiente.
+     * La dott.ssa durante una docenza, davanti a una sala di insegnanti.
      *
-     * ⚠️ Ritrae persone riconoscibili: prima della pubblicazione serve il loro
-     * consenso all'uso dell'immagine. Un volto risulta già oscurato
-     * nell'originale — segno che il tema è stato considerato, ma vale per
-     * tutti gli altri.
+     * È la foto giusta per quest'area perché mostra il ruolo, non l'aula: lei
+     * al microfono, la slide sui principi dell'ABA alle spalle, la platea di
+     * spalle. 1600×900, esattamente il rapporto in cui viene ritagliata.
+     *
+     * ⚠️ La platea è quasi tutta di spalle, ma sul lato destro alcuni volti si
+     * riconoscono di profilo: prima della pubblicazione serve il consenso di
+     * quelle persone all'uso dell'immagine, oppure una sfocatura di quella
+     * porzione. Diversamente dalle foto degli interventi, qui non c'è alcun
+     * dato sanitario in gioco — sono partecipanti a un corso — quindi basta il
+     * consenso ordinario all'immagine.
      */
-    immagine: '/corso-scuola.jpg',
+    immagine: '/formazione-aba.jpg',
     servizi: [
       {
         titolo: 'Formazione per Tecnici del Comportamento e professionisti sanitari',
@@ -317,6 +436,15 @@ export const aree = [
           'Collaborazione con famiglie ed équipe multidisciplinari',
           'Responsabilità etiche e limiti del ruolo professionale',
         ],
+      },
+      {
+        // Sta subito dopo la docenza al corso e prima della formazione per la
+        // scuola: è il passo successivo dello stesso percorso — prima si
+        // insegna, poi si supervisiona chi sta ottenendo la certificazione.
+        titolo:
+          'Supervisione per il conseguimento della certificazione di Tecnico del Comportamento',
+        testo:
+          'Svolgo attività di supervisione nell’ambito dei percorsi finalizzati al conseguimento della certificazione come Tecnico del Comportamento, secondo i requisiti stabiliti da IACABAI, IBAO e ABAIT. La supervisione comprende la pianificazione e il monitoraggio della pratica, l’osservazione diretta o tramite registrazioni video, l’analisi dei casi, la valutazione delle competenze, il feedback e la predisposizione della documentazione richiesta.',
       },
       {
         titolo: 'Formazione per insegnanti e personale scolastico',
@@ -381,7 +509,12 @@ export const biografia = [
   'Sono una psicologa iscritta all’Albo degli Psicologi della Regione Siciliana, Sezione A, e un’Analista del Comportamento in possesso della certificazione internazionale IBA®, rilasciata da IBAO®, della certificazione AdC IACABAI e dell’attestazione SIACSA/ABAIT.',
   'Dal 2010 opero nel campo dell’Analisi del Comportamento Applicata. Nel corso della mia esperienza ho ricoperto i ruoli di Tutor ABA, Analista del Comportamento, supervisore clinico, coordinatrice di équipe multidisciplinari, referente scientifico e docente in corsi rivolti a Tecnici del Comportamento, ASACOM, insegnanti e professionisti sanitari.',
   'Mi occupo della progettazione e della supervisione di interventi rivolti a persone con diagnosi di autismo e altri disturbi del neurosviluppo, con particolare attenzione alla comunicazione, alle abilità di apprendimento, alle autonomie personali e sociali e alla partecipazione nei diversi contesti di vita.',
-  'Collaboro con famiglie, scuole, cooperative sociali, professionisti sanitari e servizi del territorio, promuovendo interventi individualizzati, multidisciplinari e fondati sull’osservazione e sull’analisi dei dati.',
+  // Sostituisce, su indicazione della dott.ssa, il paragrafo che diceva solo
+  // «Collaboro con famiglie, scuole…»: quello elencava gli interlocutori senza
+  // mai dire in che veste lavora. La libera professione dal 2022 è
+  // un'informazione che prima non compariva da nessuna parte, e non va confusa
+  // con il «dal 2010» delle credenziali, che indica da quando opera nel campo.
+  'Dal 2022 svolgo la mia attività come libera professionista, lavorando direttamente con persone e famiglie e collaborando con scuole, cooperative sociali, professionisti sanitari e servizi del territorio. Promuovo interventi individualizzati e multidisciplinari, fondati sull’osservazione e sull’analisi dei dati.',
 ]
 
 /**
@@ -461,51 +594,109 @@ export const collaborazioni = [
   },
 ]
 
-/** Il libro pubblicato. */
+/**
+ * Il libro pubblicato.
+ *
+ * La descrizione è quella scritta dall'autrice per la scheda del volume, e dice
+ * tre cose che il titolo da solo non dice: che è interamente illustrato da lei,
+ * che le procedure di insegnamento sono mostrate passo dopo passo e a chi si
+ * rivolge. Sono le tre ragioni per cui qualcuno decide di comprarlo.
+ *
+ * La copertina è l'immagine di prodotto della scheda Amazon, 1000×1294 px.
+ *
+ * `linkAcquisto` è la forma estesa della scheda, con il titolo nell'indirizzo e
+ * l'ASIN B09W1JHMWM che identifica il volume e non cambia mai. Non è il link
+ * breve `amzn.eu` con cui la scheda viene condivisa: quello porta in coda un
+ * codice di tracciamento della condivisione, che finirebbe nel sorgente della
+ * pagina e in ogni clic.
+ */
 export const pubblicazione = {
+  occhiello: 'Il libro',
   autore: 'Carmela Maria Sonia Madonia',
   titolo: 'Interventi comportamentali: come e cosa fare a casa e a scuola',
   dettagli: 'Amazon, 2022 — pubblicazione indipendente',
-  testo:
-    'Rivolto a famiglie, insegnanti e operatori, il volume presenta indicazioni ed esempi pratici basati sui principi dell’Analisi del Comportamento Applicata.',
+  copertina: '/copertina-libro.jpg',
+  linkAcquisto:
+    'https://www.amazon.it/Interventi-Comportamentali-Come-cosa-scuola/dp/B09W1JHMWM',
+  paragrafi: [
+    'Un manuale interamente illustrato, pensato per rendere chiari e accessibili i principi dell’Analisi del Comportamento Applicata. I contenuti, fondati sulla letteratura scientifica, sono accompagnati da disegni originali realizzati dall’autrice, che illustrano anche le procedure di insegnamento e ne mostrano l’applicazione passo dopo passo.',
+    'Il volume è rivolto a famiglie, insegnanti, educatori, psicologi, logopedisti e alle altre figure coinvolte nel percorso educativo del bambino, nei contesti familiare e scolastico.',
+  ],
 }
 
 /**
  * Domande frequenti.
  *
- * ⚠️ Sono l'unica parte non presente nel documento originale: ricavate dai
- * suoi contenuti, ma da far leggere e approvare prima della pubblicazione.
+ * Ogni risposta è un elenco di paragrafi e non una stringa: la risposta
+ * sull'ABA oltre l'autismo ne ha tre, e cucirli in un blocco unico renderebbe
+ * illeggibile proprio quella più lunga.
+ *
+ * Le quattro contrassegnate «⌂ sua» sono state scritte dalla dott.ssa e
+ * inviate il 5 settembre 2026: si toccano solo con parole sue. Le altre quattro
+ * le avevo ricavate io dai suoi contenuti e restano da far approvare prima
+ * della pubblicazione — sono le uniche del sito a non venire da un suo testo.
+ *
+ * L'ordine non è casuale: prima che cos'è la disciplina, poi a chi si rivolge,
+ * poi un caso concreto molto cercato, poi dove si lavora e come si comincia.
+ *
+ * La domanda sulle certificazioni che non equivalgono a un Albo è stata tolta
+ * su sua indicazione. La precisazione in sé **non è sparita dal sito**: vive in
+ * `notaCertificazioni`, in evidenza sotto le tre certificazioni nella pagina
+ * «Chi sono», dove è dovuta per correttezza deontologica. Qui era una seconda
+ * copia della stessa cosa.
  */
 export const faq = [
   {
+    /** ⚠️ Da approvare. */
     domanda: 'Che cos’è l’Analisi del Comportamento Applicata (ABA)?',
-    risposta:
+    risposta: [
       'È un approccio scientifico allo studio del comportamento che utilizza l’osservazione diretta e la raccolta sistematica dei dati per progettare interventi individualizzati. Gli obiettivi sono osservabili e misurabili, e i risultati vengono verificati sui dati e non su impressioni generali.',
+    ],
   },
   {
+    /** ⌂ sua */
+    domanda:
+      'L’ABA è rivolta soltanto alle persone con diagnosi di autismo?',
+    risposta: [
+      'No. L’Analisi del Comportamento Applicata non è un trattamento riservato all’autismo, ma una disciplina scientifica che studia le relazioni tra comportamento e ambiente.',
+      'I suoi principi possono essere applicati anche in presenza di ADHD, sindrome di Down, disabilità intellettiva, ritardi dello sviluppo e altre condizioni, per insegnare nuove competenze, favorire le autonomie e intervenire sui comportamenti che compromettono il benessere e la vita quotidiana.',
+      'Come disciplina, l’ABA trova applicazione anche nei settori dell’educazione, della salute, dello sport, della sicurezza sul lavoro, della sostenibilità, della gestione delle organizzazioni e del benessere animale. Nella mia attività professionale mi occupo prevalentemente di autismo e altri disturbi del neurosviluppo.',
+    ],
+  },
+  {
+    /** ⌂ sua — sostituisce «Lavora solo con i bambini?» */
+    domanda: 'A chi si rivolgono gli interventi?',
+    risposta: [
+      'Gli interventi sono rivolti a bambini, adolescenti e adulti con diagnosi di autismo o altri disturbi del neurosviluppo. Il mio lavoro comprende anche attività di parent training, consulenza, formazione e supervisione rivolte a genitori e caregiver, insegnanti, Tecnici del Comportamento, educatori e professionisti del territorio, per favorire modalità di intervento condivise nei diversi contesti di vita.',
+    ],
+  },
+  {
+    /** ⌂ sua */
+    domanda: 'Si occupa anche di selettività alimentare?',
+    risposta: [
+      'Sì. Mi occupo degli aspetti comportamentali della selettività e delle altre difficoltà alimentari nell’ambito di una presa in carico multidisciplinare. Il percorso considera gli aspetti medici, nutrizionali, sensoriali, oro-motori e relativi alla deglutizione, attraverso la collaborazione con i professionisti competenti del territorio. Il mio intervento comprende osservazione delle routine del pasto, valutazione comportamentale, definizione degli obiettivi, parent training e monitoraggio dei progressi.',
+    ],
+  },
+  {
+    /** ⌂ sua */
     domanda: 'Lavora solo a Gela?',
-    risposta:
-      'La sede è a Gela, in provincia di Caltanissetta. Seguo inoltre progetti nel territorio — Niscemi, Sommatino, San Cataldo e Caltagirone — nell’ambito delle collaborazioni con le cooperative convenzionate con le ASP di Caltanissetta e Catania.',
+    risposta: [
+      'No. Svolgo la mia attività professionale a Gela, Caltagirone, Agrigento, San Cataldo e Sommatino e, su richiesta, anche in altre località della Sicilia. La disponibilità e le modalità di intervento vengono valutate in base al servizio richiesto.',
+    ],
   },
   {
+    /** ⚠️ Da approvare. */
     domanda: 'Dove si svolgono gli interventi?',
-    risposta:
+    risposta: [
       'Quando possibile e necessario, nei contesti in cui le abilità o le difficoltà si manifestano: casa, scuola, centro educativo o altri ambienti di vita. Le collaborazioni con le cooperative del territorio permettono inoltre di operare presso i loro spazi.',
+    ],
   },
   {
-    domanda: 'Lavora solo con i bambini?',
-    risposta:
-      'No. Gli interventi sono rivolti a bambini, adolescenti e adulti con diagnosi di autismo o altri disturbi del neurosviluppo. Una parte importante del lavoro riguarda inoltre genitori, insegnanti, operatori ed équipe.',
-  },
-  {
+    /** ⚠️ Da approvare. */
     domanda: 'Come inizia un percorso?',
-    risposta:
+    risposta: [
       'Con un primo colloquio, che serve a comprendere le esigenze della famiglia e a valutare l’appropriatezza della presa in carico. Se si decide di proseguire, viene svolta un’intervista approfondita con i genitori o caregiver per individuare le priorità e definire gli obiettivi.',
-  },
-  {
-    domanda: 'Le certificazioni ABA equivalgono a un Albo professionale?',
-    risposta:
-      'No. Le certificazioni attestano competenze specifiche nell’Analisi del Comportamento Applicata, non costituiscono Albi o Ordini professionali e si affiancano all’abilitazione sanitaria e all’iscrizione all’Albo degli Psicologi.',
+    ],
   },
 ]
 

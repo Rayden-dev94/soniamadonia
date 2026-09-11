@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { Marchio } from '@/components/Marchio'
+import { ProfiliSociali } from '@/components/ProfiliSociali'
 
 import { navigazione, studio } from '@/data/contenuti'
 
@@ -20,6 +21,12 @@ export function Footer() {
           </p>
           <p className="mt-2 text-sm text-inchiostro-500">{studio.ruolo}</p>
           <p className="mt-1 text-sm text-inchiostro-500">{studio.albo}</p>
+
+          {/* Il margine negativo recupera lo spazio dell'area toccabile: i
+              collegamenti sono quadrati di 40px attorno a icone di 24, e senza
+              questa correzione la fila partirebbe rientrata rispetto al nome e
+              all'albo che le stanno sopra. */}
+          <ProfiliSociali className="mt-4 -ml-2.5" />
         </div>
 
         <ul className="flex flex-wrap gap-x-6 gap-y-2">
