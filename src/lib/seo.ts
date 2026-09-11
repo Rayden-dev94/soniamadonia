@@ -1,6 +1,22 @@
 import type { Metadata } from 'next'
 
-export const DOMINIO = 'https://www.soniamadonia.it'
+/**
+ * L'indirizzo del sito, da cui discendono canonical, mappa, `robots.txt` e ogni
+ * `@id` dei dati strutturati.
+ *
+ * **Deve coincidere alla lettera con il dominio primario impostato su Vercel**,
+ * compreso il `www` o la sua assenza. Se qui c'è la forma senza `www` e Vercel
+ * serve quella con — o viceversa — ogni pagina dichiara come canonico un
+ * indirizzo che poi rimanda altrove: un motore di ricerca segue il rimando e si
+ * trova due versioni dello stesso sito che si contraddicono.
+ *
+ * La forma senza `www` è quella che Vercel imposta da sé aggiungendo un dominio
+ * nuovo: propone la versione con `www` come rimando verso questa. Se preferisci
+ * l'opposto, cambia qui e imposta di conseguenza il dominio primario.
+ *
+ * Registrato l'11 settembre 2026 su Porkbun. È un `.com`, non un `.it`.
+ */
+export const DOMINIO = 'https://soniamadonia.com'
 
 /**
  * L'immagine per le anteprime social, da ripetere su ogni pagina.
