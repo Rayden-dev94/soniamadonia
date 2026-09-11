@@ -77,7 +77,22 @@ export async function inviaMessaggio(
 
   try {
     await posta.sendMail({
-      from: `"Sito ${studio.nome}" <${process.env.SMTP_USER}>`,
+      /**
+       * Il mittente è una variabile a sé, non l'utenza SMTP.
+       *
+       * Con una casella normale — Aruba, Register — le due cose coincidono: ci
+       * si autentica con l'indirizzo da cui si spedisce, e infatti se
+       * `EMAIL_MITTENTE` manca si ricade sull'utenza.
+       *
+       * Con un servizio di posta transazionale non coincidono affatto:
+       * l'utenza è un codice tecnico del fornitore, del tipo
+       * `8a1b2c@smtp-brevo.com`, e spedire da quello significa che il messaggio
+       * viene rifiutato o marcato come spam. Lì il mittente deve essere un
+       * indirizzo verificato su un dominio di cui si ha il controllo.
+       *
+       * Tenerli separati è ciò che rende il fornitore una scelta reversibile.
+       */
+      from: `"Sito ${studio.nome}" <${process.env.EMAIL_MITTENTE ?? process.env.SMTP_USER}>`,
       to: process.env.EMAIL_DESTINATARIO ?? studio.email,
       // Rispondendo al messaggio si risponde alla persona, non al sito.
       replyTo: `"${nome}" <${email}>`,
