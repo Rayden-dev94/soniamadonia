@@ -10,13 +10,15 @@ import type { Metadata } from 'next'
  * indirizzo che poi rimanda altrove: un motore di ricerca segue il rimando e si
  * trova due versioni dello stesso sito che si contraddicono.
  *
- * La forma senza `www` è quella che Vercel imposta da sé aggiungendo un dominio
- * nuovo: propone la versione con `www` come rimando verso questa. Se preferisci
- * l'opposto, cambia qui e imposta di conseguenza il dominio primario.
+ * La forma **con `www`** non è una preferenza estetica: è quella che Vercel ha
+ * assegnato come primaria aggiungendo il dominio, con l'apex che le rimanda
+ * contro con un 308. Il canonico deve puntare alla destinazione del rimando,
+ * non alla sua partenza, altrimenti ogni pagina dichiara ufficiale un indirizzo
+ * che poi manda da un'altra parte.
  *
  * Registrato l'11 settembre 2026 su Porkbun. È un `.com`, non un `.it`.
  */
-export const DOMINIO = 'https://soniamadonia.com'
+export const DOMINIO = 'https://www.soniamadonia.com'
 
 /**
  * L'immagine per le anteprime social, da ripetere su ogni pagina.
