@@ -66,7 +66,23 @@ export async function inviaMessaggio(
 
   const posta = trasporto()
   if (!posta) {
-    console.error('SMTP non configurato: variabili d’ambiente mancanti.')
+    /**
+     * Dire *quale* variabile manca, non solo che ne manca una.
+     *
+     * Con il messaggio generico che c'era prima, davanti a un modulo che non
+     * spediva restavano tre sospetti e nessun modo di distinguerli: i valori
+     * su Vercel sono scritti come segreti e non si possono rileggere. Si
+     * finiva per reinserirli tutti alla cieca.
+     *
+     * I nomi non sono informazioni riservate — lo sono i valori — quindi
+     * finiscono nel registro del server. Non nel messaggio mostrato a chi
+     * scrive, che non saprebbe cosa farsene.
+     */
+    const mancanti = (['SMTP_HOST', 'SMTP_USER', 'SMTP_PASSWORD'] as const)
+      .filter((nome) => !process.env[nome])
+      .join(', ')
+
+    console.error(`SMTP non configurato. Variabili mancanti o vuote: ${mancanti}`)
     return {
       stato: 'errore',
       messaggio:
@@ -92,8 +108,21 @@ export async function inviaMessaggio(
        *
        * Tenerli separati è ciò che rende il fornitore una scelta reversibile.
        */
-      from: `"Sito ${studio.nome}" <${process.env.EMAIL_MITTENTE ?? process.env.SMTP_USER}>`,
-      to: process.env.EMAIL_DESTINATARIO ?? studio.email,
+      /**
+       * `||` e non `??`, su entrambe le righe.
+       *
+       * `??` ripiega solo su `null` o `undefined`: una variabile che **esiste
+       * ma è vuota** verrebbe usata così com'è, e il messaggio partirebbe senza
+       * mittente o verso un destinatario inesistente. Non è un caso teorico —
+       * su Vercel una variabile salvata per sbaglio senza valore si presenta
+       * esattamente così, e siccome i segreti non si possono rileggere, il
+       * guasto sarebbe invisibile dal pannello.
+       *
+       * `||` tratta la stringa vuota come assente, che qui è l'unica lettura
+       * sensata: un indirizzo vuoto non è una scelta, è una dimenticanza.
+       */
+      from: `"Sito ${studio.nome}" <${process.env.EMAIL_MITTENTE || process.env.SMTP_USER}>`,
+      to: process.env.EMAIL_DESTINATARIO || studio.email,
       // Rispondendo al messaggio si risponde alla persona, non al sito.
       replyTo: `"${nome}" <${email}>`,
       subject: `Richiesta dal sito — ${nome}`,

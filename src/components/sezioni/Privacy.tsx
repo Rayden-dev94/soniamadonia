@@ -5,6 +5,16 @@ import { studio } from '@/data/contenuti'
 /**
  * Bozza di informativa: fai sempre validare il testo definitivo da chi si
  * occupa della privacy dello studio prima di pubblicare.
+ *
+ * ⚠️ La sezione sui fornitori **non è decorativa e non va tolta**. Dal momento
+ * in cui il modulo di contatto è entrato in funzione, i messaggi attraversano
+ * davvero tre aziende prima di arrivare alla dott.ssa, e il GDPR chiede che
+ * chiunque scriva lo sappia prima di premere invio. Un messaggio dal modulo può
+ * contenere la descrizione della difficoltà di un bambino: non è un dato
+ * qualunque.
+ *
+ * Se un domani si cambia fornitore — via Brevo, via Vercel — **questo elenco va
+ * aggiornato lo stesso giorno**, non alla prossima revisione del sito.
  */
 export function Privacy() {
   return (
@@ -35,9 +45,59 @@ export function Privacy() {
             <p className="mt-3">
               Il modulo di contatto raccoglie nome, indirizzo email e il
               contenuto del messaggio, con l’unica finalità di rispondere alla
-              richiesta. I dati non vengono ceduti a terzi né usati per finalità
-              di marketing.
+              richiesta. I dati non vengono venduti, non vengono comunicati a
+              terzi per loro finalità e non vengono usati per finalità di
+              marketing. Il sito non usa cookie di profilazione né strumenti di
+              statistica che seguano chi naviga.
             </p>
+          </div>
+
+          <div>
+            <h2 className="text-xl">Chi tratta i dati per mio conto</h2>
+            <p className="mt-3">
+              Per far funzionare il sito e recapitare i messaggi mi avvalgo di
+              tre fornitori, che trattano i dati soltanto su mie istruzioni e
+              non per finalità proprie:
+            </p>
+            <ul className="mt-5 space-y-4">
+              <li className="flex gap-3">
+                <span
+                  aria-hidden="true"
+                  className="mt-3 h-1 w-1 shrink-0 rounded-full bg-salvia-500"
+                />
+                <span>
+                  <strong className="text-inchiostro-900">Vercel Inc.</strong>{' '}
+                  ospita il sito e ne registra gli accessi tecnici, compreso
+                  l’indirizzo IP. Ha sede negli Stati Uniti: il trasferimento
+                  avviene sulla base delle garanzie previste dal GDPR per i
+                  Paesi extra-europei.
+                </span>
+              </li>
+              <li className="flex gap-3">
+                <span
+                  aria-hidden="true"
+                  className="mt-3 h-1 w-1 shrink-0 rounded-full bg-salvia-500"
+                />
+                <span>
+                  <strong className="text-inchiostro-900">
+                    Brevo — Sendinblue SAS
+                  </strong>{' '}
+                  recapita i messaggi inviati dal modulo. Ha sede in Francia e i
+                  dati restano nell’Unione Europea.
+                </span>
+              </li>
+              <li className="flex gap-3">
+                <span
+                  aria-hidden="true"
+                  className="mt-3 h-1 w-1 shrink-0 rounded-full bg-salvia-500"
+                />
+                <span>
+                  <strong className="text-inchiostro-900">Aruba S.p.A.</strong>{' '}
+                  gestisce la casella di posta sulla quale ricevo i messaggi. Ha
+                  sede in Italia.
+                </span>
+              </li>
+            </ul>
           </div>
 
           <div>

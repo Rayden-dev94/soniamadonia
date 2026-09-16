@@ -53,7 +53,37 @@ export const metadata: Metadata = {
     images: immagineSocial,
   },
   twitter: { card: 'summary_large_image' },
-  icons: { icon: '/favicon.png' },
+  /**
+   * Le icone del sito.
+   *
+   * Il file dichiarato è quello da 192 px, non quello da 180 che c'era prima:
+   * Google chiede un lato **multiplo di 48** e 180 non lo è. Non è un capriccio
+   * — è la misura da cui ricava le riduzioni, e partendo da un numero che non
+   * divide bene il ridimensionamento è più sporco.
+   *
+   * `/favicon.ico` è il percorso storico che i browser e lo stesso Google
+   * cercano per primo, prima di leggere l'HTML. Rispondeva 404: non è un errore
+   * grave, perché la dichiarazione qui sotto ha la precedenza, ma è una
+   * richiesta a vuoto su ogni prima visita.
+   *
+   * L'immagine è **solo l'arcobaleno** del marchio, non il marchio intero, e
+   * non è una semplificazione arbitraria: nei risultati di ricerca l'icona
+   * viene mostrata a 16 px, e a quella misura la scritta «ABA FRIENDLY»
+   * scompare del tutto mentre le mani a tratto fine diventano una macchia
+   * grigia. L'arcobaleno è l'unica forma del logo che sopravvive — l'abbiamo
+   * verificato riducendo davvero l'immagine a 16 px e guardandola.
+   *
+   * Il ritaglio parte da `logo-abafriendly.jpg`, che è a piena risoluzione, e
+   * comincia qualche pixel sotto il bordo superiore dell'arco: più in alto
+   * entrerebbero i residui delle lettere di «FRIENDLY», che nell'originale
+   * passano sopra l'arcobaleno.
+   */
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png', sizes: '192x192' },
+      { url: '/favicon.ico', sizes: '48x48' },
+    ],
+  },
 
   /**
    * Impedisce ai browser mobili di trasformare da soli in collegamenti i
