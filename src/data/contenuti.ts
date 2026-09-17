@@ -533,7 +533,7 @@ export const certificazioni = [
       'IBAO® — International Behavior Analysis Organization® — è un organismo internazionale di certificazione nell’ambito dell’Analisi del Comportamento Applicata. La certificazione IBA® attesta il possesso degli standard previsti in materia di formazione, esperienza pratica, supervisione, competenze ed etica professionale, e rende verificabile la preparazione dell’Analista del Comportamento a livello internazionale.',
   },
   {
-    titolo: 'Analista del Comportamento — AdC IACABAI',
+    titolo: 'Analista del Comportamento (AdC) certificata IACABAI',
     numero: 'Certificazione n. 1-001-39',
     logo: '/logo-iacabai.png' as string | null,
     sigla: 'IACABAI',
@@ -559,7 +559,7 @@ export const notaCertificazioni =
 export const qualifiche = [
   'Psicologa iscritta all’Albo degli Psicologi della Regione Siciliana, Sezione A, n. 10600',
   'Analista del Comportamento certificata IBAO® — International Behavior Analysis Organization®, certificazione n. 76933613',
-  'Analista del Comportamento certificata IACABAI, certificazione n. 1-001-39',
+  'Analista del Comportamento (AdC) certificata IACABAI, certificazione n. 1-001-39',
   'Iscritta al registro ABAIT, codice S-2022-00601',
   'Iscritta al registro SIACSA, codice S-2022-00601',
   'Master universitario di II livello in Applied Behavior Analysis e intervento comportamentale precoce per l’autismo',

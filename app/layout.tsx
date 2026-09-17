@@ -163,7 +163,7 @@ const datiStrutturati = {
         {
           '@type': 'EducationalOccupationalCredential',
           credentialCategory: 'Certificazione professionale',
-          name: 'Analista del Comportamento — IACABAI, n. 1-001-39',
+          name: 'Analista del Comportamento (AdC) certificata IACABAI, n. 1-001-39',
         },
         {
           '@type': 'EducationalOccupationalCredential',
