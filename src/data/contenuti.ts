@@ -423,9 +423,9 @@ export const aree = [
     immagine: '/formazione-aba.jpg',
     servizi: [
       {
-        titolo: 'Formazione per Tecnici del Comportamento e professionisti sanitari',
+        titolo: 'Corso di Tecnico del Comportamento e interventi multidisciplinari',
         testo:
-          'Sono referente scientifico e docente del corso per Tecnico del Comportamento presso l’Istituto di Sociologia “Luigi Sturzo” di Caltagirone. Il percorso è rivolto a Tecnici del Comportamento, educatori, ASACOM e professionisti sanitari — psicologi, psicoterapeuti, logopedisti. Per le professioni sanitarie ammesse è previsto il riconoscimento di 50 crediti ECM, secondo le modalità stabilite dal provider accreditato.',
+          'Sono referente scientifico e docente del corso di formazione per Tecnico del Comportamento presso l’Istituto di Sociologia “Luigi Sturzo” di Caltagirone. Il corso è finalizzato al percorso per il conseguimento della certificazione come Tecnico del Comportamento, secondo i requisiti stabiliti dall’ente certificatore di riferimento. Il percorso formativo si articola in 52 ore complessive: conduco personalmente 40 ore di formazione teorico-pratica sui principi e sulle procedure dell’Analisi del Comportamento Applicata, mentre le ulteriori 12 ore prevedono il coinvolgimento di diverse figure professionali, tra cui logopedista, psicomotricista, osteopata, psicoterapeuta e neuropsichiatra infantile. Per le professioni sanitarie ammesse è previsto il riconoscimento di 50 crediti ECM, secondo le modalità stabilite dal provider accreditato. La metodologia comprende spiegazioni, analisi di casi, dimostrazioni, visione guidata di video didattici, role-playing, esercitazioni pratiche e feedback specifici.',
         elenco: [
           'Osservazione, misurazione e valutazione funzionale del comportamento',
           'Procedure di insegnamento, prompting e rinforzo',
@@ -542,7 +542,11 @@ export const certificazioni = [
   },
   {
     titolo: 'Analista del Comportamento — SIACSA/ABAIT',
-    numero: 'Codice socio S-2022-00601 — validità fino al 31 dicembre 2026',
+    // La data di validità è stata tolta su indicazione della dott.ssa. Aveva
+    // anche un difetto pratico: una scadenza scritta in pagina invecchia da
+    // sola, e passato il 31 dicembre avrebbe fatto sembrare scaduta una
+    // certificazione che nel frattempo è stata rinnovata.
+    numero: 'Codice socio S-2022-00601',
     logo: '/logo-abait.png' as string | null,
     sigla: 'ABAIT',
     /** Marchio orizzontale: va tenuto più basso degli altri due (vedi nota). */
