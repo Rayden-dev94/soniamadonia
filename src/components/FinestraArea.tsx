@@ -219,7 +219,9 @@ export function FinestraArea({
         />
 
         <div className="p-7 sm:p-10">
-          <p className="text-sm tracking-[0.2em] text-salvia-600 uppercase">
+          {/* Stesso corpo dell'occhiello nella pagina Servizi: è la stessa
+              informazione, e deve pesare uguale nei due posti. */}
+          <p className="text-base tracking-[0.2em] text-salvia-700 uppercase sm:text-lg">
             Area {indice + 1} di {totale}
           </p>
           <h2

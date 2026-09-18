@@ -54,7 +54,7 @@ export function Metodo() {
   return (
     <section ref={ref} className="bg-sabbia-100/55 py-24 sm:py-32">
       <div className="contenitore">
-        <p className="mb-5 text-sm tracking-[0.2em] text-salvia-600 uppercase">
+        <p className="mb-5 text-base tracking-[0.2em] text-salvia-700 uppercase sm:text-lg">
           Metodo di lavoro
         </p>
         <h2 className="max-w-2xl text-3xl leading-tight sm:text-4xl">

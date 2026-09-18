@@ -19,10 +19,12 @@ export const metadata: Metadata = metadatiPagina({
 export default function PaginaChiSono() {
   return (
     <>
+      {/* Senza `testo` su richiesta della dott.ssa: sotto al titolo resta solo
+          la fotografia. Il componente lo rende opzionale, quindi basta non
+          passarlo. */}
       <Intestazione
         occhiello="Chi sono"
         titolo="Dal 2010 nel campo dell’Analisi del Comportamento Applicata."
-        testo="Il percorso professionale, le certificazioni, le collaborazioni sul territorio e i principi su cui costruisco ogni intervento."
       />
       <ChiSono />
       <Attivita />

@@ -29,13 +29,8 @@ export function Credenziali() {
     <section ref={ref} className="py-24 sm:py-32">
       <div className="contenitore grid gap-14 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
         <div>
-          <p
-            data-anim
-            className="mb-5 text-sm tracking-[0.2em] text-salvia-600 uppercase"
-          >
-            In breve
-          </p>
-
+          {/* L'occhiello «In breve» è stato tolto su richiesta della dott.ssa.
+              Il testo resta: a sparire è solo l'etichetta sopra. */}
           <div className="space-y-5 text-lg leading-relaxed text-inchiostro-500">
             {presentazione.paragrafi.slice(0, 2).map((paragrafo) => (
               <p key={paragrafo.slice(0, 24)} data-anim>

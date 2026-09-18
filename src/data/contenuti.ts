@@ -556,9 +556,6 @@ export const certificazioni = [
   },
 ]
 
-export const notaCertificazioni =
-  'Le certificazioni attestano competenze specifiche nell’Analisi del Comportamento Applicata. Non costituiscono Albi o Ordini professionali e si affiancano alla mia abilitazione sanitaria e all’iscrizione all’Albo degli Psicologi.'
-
 /** Titoli di studio e iscrizioni. */
 export const qualifiche = [
   'Psicologa iscritta all’Albo degli Psicologi della Regione Siciliana, Sezione A, n. 10600',
@@ -644,10 +641,10 @@ export const pubblicazione = {
  * poi un caso concreto molto cercato, poi dove si lavora e come si comincia.
  *
  * La domanda sulle certificazioni che non equivalgono a un Albo è stata tolta
- * su sua indicazione. La precisazione in sé **non è sparita dal sito**: vive in
- * `notaCertificazioni`, in evidenza sotto le tre certificazioni nella pagina
- * «Chi sono», dove è dovuta per correttezza deontologica. Qui era una seconda
- * copia della stessa cosa.
+ * su sua indicazione, e così pure la nota che diceva la stessa cosa sotto le
+ * certificazioni in «Chi sono». Il sito non porta più quella precisazione da
+ * nessuna parte: è una scelta della dott.ssa, che di deontologia della propria
+ * professione sa più di noi. I testi restano nella cronologia di git.
  */
 export const faq = [
   {
@@ -708,15 +705,22 @@ export const faq = [
 export const seo = {
   home: {
     /**
-     * Il titolo della home porta la località, perché è il primo posto in cui
-     * Google cerca corrispondenza per una ricerca locale.
+     * Il nome per primo, su richiesta della dott.ssa.
      *
-     * L'ordine non è casuale: prima il mestiere e la città — che è quello che
-     * la gente digita — poi il nome, che serve a chi la cerca già sapendo come
-     * si chiama. Sta sotto i 60 caratteri, oltre i quali il titolo viene
-     * troncato nei risultati.
+     * Prima l'ordine era rovesciato — mestiere e città davanti, nome in fondo —
+     * perché è il mestiere quello che la gente digita quando non sa ancora chi
+     * cercare. Ma il titolo è anche l'insegna: chi arriva dai risultati vede
+     * quella riga prima di ogni altra cosa, e lei vuole che veda il proprio
+     * nome. È una scelta sua, e sul posizionamento incide poco: la città e la
+     * sigla ABA restano nella stessa riga, solo più in là.
+     *
+     * ⚠️ Sono 62 caratteri e Google ne mostra circa 60: nei risultati le ultime
+     * parole possono venire troncate. Se un domani dovesse dare fastidio, la
+     * versione corta che sta nel limite è «Dott.ssa Sonia Madonia — Analista
+     * del Comportamento a Gela», al prezzo della sigla ABA — che comunque
+     * compare nella descrizione, nel testo della pagina e nei dati strutturati.
      */
-    titolo: `Analista del Comportamento ABA a Gela — ${studio.nome}`,
+    titolo: `Dott.ssa ${studio.nome} — Analista del Comportamento ABA a Gela`,
     descrizione:
       'Psicologa e Analista del Comportamento certificata ABA a Gela. Interventi per autismo e disturbi del neurosviluppo, parent training, supervisione.',
   },

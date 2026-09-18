@@ -150,7 +150,11 @@ export function Servizi({ anteprima = false }: Props) {
                 <div>
                   <p
                     data-anim
-                    className="mb-4 text-sm tracking-[0.2em] text-salvia-600 uppercase"
+                    // Più grande degli altri occhielli del sito, su richiesta
+                    // della dott.ssa: qui non è un'etichetta decorativa ma
+                    // l'indicazione di dove si è dentro un elenco di quattro,
+                    // e in corpo 14 si perdeva sotto il titolo dell'area.
+                    className="mb-4 text-base tracking-[0.2em] text-salvia-700 uppercase sm:text-lg"
                   >
                     Area {indice + 1} di {aree.length}
                   </p>

@@ -5,7 +5,6 @@ import { SimboloPsi } from '@/components/SimboloPsi'
 import {
   biografia,
   certificazioni,
-  notaCertificazioni,
   principi,
   qualifiche,
   studio,
@@ -96,14 +95,11 @@ export function ChiSono() {
           ))}
         </div>
 
-        {/* Distinzione richiesta dalla correttezza deontologica: una
-            certificazione non è un Albo. Non va rimossa. */}
-        <p
-          data-anim
-          className="mt-8 max-w-3xl rounded-2xl border border-sabbia-200 bg-sabbia-100/55 p-6 leading-relaxed text-inchiostro-500"
-        >
-          {notaCertificazioni}
-        </p>
+        {/* Qui stava la nota che distingueva le certificazioni dall'iscrizione
+            a un Albo — «non costituiscono Albi o Ordini professionali». È stata
+            tolta su richiesta della dott.ssa, che di deontologia della propria
+            professione sa più di noi. Il testo resta recuperabile dalla
+            cronologia di git, se un domani servisse rimetterlo. */}
       </div>
 
       <div className="contenitore mt-24 grid gap-14 lg:grid-cols-2 lg:gap-20">

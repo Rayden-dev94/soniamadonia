@@ -20,9 +20,11 @@ export const metadata: Metadata = metadatiPagina({
 export default function PaginaServizi() {
   return (
     <>
+      {/* Senza `titolo` su richiesta della dott.ssa. Il componente lo rende
+          opzionale e in sua assenza promuove l'occhiello a titolo della pagina,
+          così «Servizi» non resta senza. */}
       <Intestazione
         occhiello="Servizi"
-        titolo="Dalla valutazione all’intervento, fino alla formazione."
         testo="I servizi sono raccolti in quattro aree. Ogni intervento viene costruito sulle caratteristiche, sulle abilità e sui bisogni specifici della persona, e monitorato attraverso l’osservazione diretta e la raccolta sistematica dei dati."
       />
       <Servizi />

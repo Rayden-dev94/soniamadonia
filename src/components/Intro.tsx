@@ -67,7 +67,21 @@ export function Intro() {
         // `mask: 'chars'` crea da solo i contenitori con overflow nascosto:
         // le lettere salgono da sotto una linea invisibile.
         lettere = SplitText.create(nome, { type: 'chars', mask: 'chars' })
-        sigla = SplitText.create('[data-sottotitolo]', { type: 'chars' })
+        /**
+         * `words,chars` e non `chars`.
+         *
+         * L'animazione ha bisogno dei singoli caratteri, ma dividendo *solo*
+         * per caratteri ognuno diventa un elemento a sé e il browser perde di
+         * vista le parole: su schermo stretto andava a capo dove capitava,
+         * anche in mezzo a «Comportamento».
+         *
+         * Chiedendo anche le parole, SplitText le avvolge in un contenitore
+         * ciascuna: i caratteri restano disponibili per l'animazione, ma il
+         * ritorno a capo può avvenire soltanto fra una parola e l'altra.
+         */
+        sigla = SplitText.create('[data-sottotitolo]', {
+          type: 'words,chars',
+        })
         const caratteri = sigla.chars
         const centro = (caratteri.length - 1) / 2
 
@@ -333,9 +347,11 @@ export function Intro() {
           className="mt-8 h-px w-40 origin-center scale-x-0 bg-salvia-400 sm:w-56"
         />
 
+        {/* `text-balance` distribuisce le due righe in parti uguali invece di
+            riempire la prima e lasciare una parola sola sulla seconda. */}
         <p
           data-sottotitolo
-          className="mt-8 text-[0.7rem] tracking-[0.2em] text-salvia-600 uppercase opacity-0 sm:text-sm"
+          className="mt-8 text-[0.7rem] text-balance tracking-[0.2em] text-salvia-600 uppercase opacity-0 sm:text-sm"
         >
           {studio.ruolo}
         </p>
