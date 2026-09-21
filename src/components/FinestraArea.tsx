@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 
+import { CaroselloArea } from '@/components/CaroselloArea'
 import type { aree } from '@/data/contenuti'
 import { gsap, motoRidotto, useGSAP } from '@/lib/gsap'
 
@@ -206,16 +207,19 @@ export function FinestraArea({
       </button>
 
       <div className="max-h-[88vh] overflow-y-auto overscroll-contain">
-        {/* La fotografia per intero, nel suo 16:9 e senza veli sopra.
-            Prima stava in una fascia alta 160px: di una foto scattata in
+        {/* Le fotografie dell'area, nel loro 16:9 e senza veli sopra.
+            Prima stavano in una fascia alta 160px: di una foto scattata in
             sedici noni ne restava una striscia centrale, cioè le teste
             tagliate. Il titolo che le stava sopra è sceso sotto, dove non ha
-            bisogno di scurire l'immagine per essere leggibile. */}
-        <img
-          src={area.immagine}
-          alt=""
-          aria-hidden="true"
-          className="aspect-16/9 w-full object-cover"
+            bisogno di scurire l'immagine per essere leggibile.
+
+            `aperta` passa al carosello: fermo a finestra chiusa, riparte dalla
+            prima foto a ogni apertura. */}
+        <CaroselloArea
+          key={area.titolo}
+          immagini={area.immagini}
+          titolo={area.titolo}
+          attivo={aperta}
         />
 
         <div className="p-7 sm:p-10">

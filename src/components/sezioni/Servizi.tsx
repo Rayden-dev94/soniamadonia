@@ -60,7 +60,7 @@ export function Servizi({ anteprima = false }: Props) {
               >
                 <div className="overflow-hidden">
                   <img
-                    src={area.immagine}
+                    src={area.immagini[0]}
                     alt=""
                     aria-hidden="true"
                     loading="lazy"
@@ -138,7 +138,7 @@ export function Servizi({ anteprima = false }: Props) {
                   className={immagineADestra ? 'lg:order-last' : undefined}
                 >
                   <img
-                    src={area.immagine}
+                    src={area.immagini[0]}
                     alt=""
                     aria-hidden="true"
                     loading="lazy"

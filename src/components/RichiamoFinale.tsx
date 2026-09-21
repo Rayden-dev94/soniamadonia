@@ -17,7 +17,12 @@ export function RichiamoFinale({
   const ref = useRivela<HTMLElement>()
 
   return (
-    <section ref={ref} className="pb-24 sm:pb-32">
+    // Margine anche sopra, non solo sotto. Finora lo spazio glielo prestava la
+    // sezione precedente, ma quando sopra c'è una fascia colorata — la sezione
+    // del libro in home — il bordo del colore arrivava a toccare il riquadro
+    // verde. Con il proprio margine il riquadro si stacca da qualunque cosa lo
+    // preceda, in tutte e tre le pagine in cui compare.
+    <section ref={ref} className="py-24 sm:py-32">
       <div className="contenitore">
         <div
           data-anim

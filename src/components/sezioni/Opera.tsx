@@ -18,9 +18,9 @@ export function Opera() {
   const ref = useRivela<HTMLElement>()
 
   return (
-    // Da quando sopra c'è la sezione del libro, con il suo fondo sabbia, questa
-    // ha bisogno di uno spazio suo in cima: senza, l'occhiello «Un'opera
-    // collettiva» partiva incollato al bordo della banda colorata.
+    // Margine sopra e sotto, non solo sotto: questa sezione ha avuto sopra di
+    // sé prima il libro e ora i destinatari, e senza uno spazio proprio
+    // l'occhiello «Un'opera collettiva» finisce incollato a ciò che precede.
     <section ref={ref} className="py-24 sm:py-32">
       <div className="contenitore">
         <p

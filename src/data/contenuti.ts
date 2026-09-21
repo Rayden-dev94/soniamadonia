@@ -269,7 +269,14 @@ export const aree = [
     sommario:
       'Dal primo colloquio al piano individualizzato: capire cosa serve prima di decidere come intervenire.',
     /** Foto vera di un colloquio: persone riconoscibili, serve il consenso. */
-    immagine: '/colloquio.jpg',
+    immagini: [
+      '/colloquio.jpg',
+      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
+      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
+      // riquadri con scritto «foto di prova» e in pagina si vedono.
+      '/segnaposto-2.jpg',
+      '/segnaposto-3.jpg',
+    ],
     servizi: [
       {
         titolo: 'Primo colloquio e analisi della richiesta',
@@ -339,7 +346,14 @@ export const aree = [
      * particolarissimo: con il volto coperto la fotografia non è più un dato
      * personale, ma finché l'originale è recuperabile la questione non è chiusa.
      */
-    immagine: '/intervento.jpg',
+    immagini: [
+      '/intervento.jpg',
+      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
+      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
+      // riquadri con scritto «foto di prova» e in pagina si vedono.
+      '/segnaposto-2.jpg',
+      '/segnaposto-3.jpg',
+    ],
     servizi: [
       {
         titolo: 'Supervisione degli interventi ABA',
@@ -383,7 +397,14 @@ export const aree = [
      * scritto di ciascuna, oppure una foto diversa. Non è un dato sanitario —
      * sono corsisti — ma restano volti identificabili di persone private.
      */
-    immagine: '/scuola-equipe.jpg',
+    immagini: [
+      '/scuola-equipe.jpg',
+      '/corso-formazione.jpg',
+      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
+      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
+      // riquadri con scritto «foto di prova» e in pagina si vedono.
+      '/segnaposto-4.jpg',
+    ],
     servizi: [
       {
         titolo: 'Consulenza scolastica',
@@ -420,7 +441,14 @@ export const aree = [
      * dato sanitario in gioco — sono partecipanti a un corso — quindi basta il
      * consenso ordinario all'immagine.
      */
-    immagine: '/formazione-aba.jpg',
+    immagini: [
+      '/formazione-aba.jpg',
+      '/corso-scuola.jpg',
+      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
+      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
+      // riquadri con scritto «foto di prova» e in pagina si vedono.
+      '/segnaposto-4.jpg',
+    ],
     servizi: [
       {
         titolo: 'Corso di Tecnico del Comportamento e interventi multidisciplinari',
