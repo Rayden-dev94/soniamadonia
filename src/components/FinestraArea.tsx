@@ -3,65 +3,14 @@
 import { useEffect, useRef } from 'react'
 
 import { CaroselloArea } from '@/components/CaroselloArea'
+import {
+  bloccaScorrimento,
+  sbloccaScorrimento,
+} from '@/lib/bloccoScorrimento'
 import type { aree } from '@/data/contenuti'
 import { gsap, motoRidotto, useGSAP } from '@/lib/gsap'
 
 type Area = (typeof aree)[number]
-
-/**
- * Blocca la pagina dietro la finestra **senza perdere il punto in cui si era**.
- *
- * La via breve — `body { overflow: hidden }` — qui non va, ed è il motivo per
- * cui la finestra faceva saltare la pagina in cima: l'overflow del `body` si
- * propaga alla finestra del browser, e togliere al viewport la possibilità di
- * scorrere gli azzera l'offset. Chi apriva una scheda a metà pagina si
- * ritrovava in cima appena richiudeva. (L'intro fa lo stesso, ma lì la pagina
- * è già a zero e il difetto non si vede.)
- *
- * La via giusta è fissare il corpo dov'è: `position: fixed` con un `top`
- * negativo pari allo scorrimento corrente. Visivamente non cambia nulla —
- * la pagina resta esattamente dove la si stava guardando — ma non scorre più.
- *
- * La barra di scorrimento sparisce insieme allo scorrimento: il suo spessore
- * viene restituito come spazio a destra, altrimenti il contenuto si allarga di
- * colpo. Dove le barre sono sovrapposte — macOS, telefoni — la misura è zero e
- * la riga non fa nulla.
- */
-function bloccaScorrimento(memoria: { current: number }) {
-  if (document.body.style.position === 'fixed') return
-
-  memoria.current = window.scrollY
-
-  const barra = window.innerWidth - document.documentElement.clientWidth
-  const corpo = document.body.style
-
-  corpo.position = 'fixed'
-  corpo.top = `-${memoria.current}px`
-  corpo.left = '0'
-  corpo.width = '100%'
-  corpo.paddingRight = `${barra}px`
-}
-
-/**
- * Restituisce la pagina, e la rimette dov'era.
- *
- * `behavior: 'instant'` non è pignoleria: il sito dichiara
- * `scroll-behavior: smooth` sull'elemento radice, e senza questa precisazione
- * il ritorno alla posizione diventerebbe una scorrimento animata di mezza
- * pagina, ben visibile ogni volta che si chiude la finestra.
- */
-function sbloccaScorrimento(memoria: { current: number }) {
-  const corpo = document.body.style
-  if (corpo.position !== 'fixed') return
-
-  corpo.position = ''
-  corpo.top = ''
-  corpo.left = ''
-  corpo.width = ''
-  corpo.paddingRight = ''
-
-  window.scrollTo({ top: memoria.current, behavior: 'instant' })
-}
 
 type Props = {
   area: Area

@@ -7,6 +7,10 @@ import { usePathname } from 'next/navigation'
 import { Marchio } from '@/components/Marchio'
 import { IconaWhatsapp } from '@/components/Whatsapp'
 import { linkWhatsapp, navigazione, studio } from '@/data/contenuti'
+import {
+  bloccaScorrimento,
+  sbloccaScorrimento,
+} from '@/lib/bloccoScorrimento'
 import { useIntro } from '@/lib/contestoIntro'
 import { gsap, motoRidotto, useGSAP } from '@/lib/gsap'
 
@@ -221,15 +225,25 @@ export function Navbar() {
     return () => window.removeEventListener('keydown', allaTastiera)
   })
 
-  // Niente scroll dietro al pannello aperto. Tocchiamo il body solo quando
-  // serve: l'intro lo blocca a sua volta e non va scavalcata.
+  /**
+   * Niente scorrimento dietro al pannello aperto.
+   *
+   * Qui c'era `body { overflow: hidden }`, ed era la causa del difetto più
+   * fastidioso del sito da telefono: quell'overflow si propaga alla finestra e
+   * ne azzera la posizione, quindi aprendo il menu a metà pagina si tornava in
+   * cima — e passando a un'altra pagina si vedeva il contenuto comparire e poi
+   * saltare verso l'alto. Su computer non si notava perché questo pannello
+   * esiste solo sugli schermi stretti.
+   *
+   * Vedi `lib/bloccoScorrimento`, che fissa il corpo dov'è invece di togliergli
+   * la possibilità di scorrere.
+   */
+  const scorrimento = useRef(0)
+
   useEffect(() => {
     if (!aperta) return
-    const precedente = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = precedente
-    }
+    bloccaScorrimento(scorrimento)
+    return () => sbloccaScorrimento(scorrimento)
   }, [aperta])
 
   // `NavLink` di React Router segnalava da sé la voce attiva. Con next/link

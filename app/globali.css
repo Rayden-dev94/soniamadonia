@@ -54,9 +54,23 @@
  * un'informazione da leggere, non un'etichetta.
  */
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  /**
+   * Qui stava `scroll-behavior: smooth`, ed è stato tolto.
+   *
+   * Serve a una cosa sola: rendere morbido il salto verso un'ancora interna,
+   * cioè un collegamento a `#qualcosa` dentro la stessa pagina. Nel sito non ce
+   * n'è nemmeno uno.
+   *
+   * In compenso faceva danni. Ogni cambio pagina finisce con un ritorno in
+   * cima, e con lo scorrimento morbido quel ritorno diventava un'animazione: da
+   * telefono, dove le pagine sono lunghe, si vedeva il contenuto nuovo comparire
+   * e *poi* scivolare verso l'alto per un secondo abbondante. Il ripristino
+   * della posizione alla chiusura del menu aveva lo stesso problema.
+   *
+   * Se un domani servissero le ancore interne, va rimesso con prudenza: lo
+   * scorrimento di ripristino in `lib/bloccoScorrimento` è già protetto con
+   * `behavior: 'instant'` apposta.
+   */
 
   body {
     @apply bg-sabbia-50 text-inchiostro-700 font-sans antialiased;
@@ -83,10 +97,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
+    /* Il ripiego su `scroll-behavior: auto` che stava qui non serve più: lo
+       scorrimento morbido non viene più dichiarato da nessuna parte. */
     [data-anim] {
       opacity: 1;
     }
