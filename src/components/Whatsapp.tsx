@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import type { SVGProps } from 'react'
 
 import { linkWhatsapp } from '@/data/contenuti'
@@ -12,12 +15,23 @@ export function IconaWhatsapp(props: SVGProps<SVGSVGElement>) {
 }
 
 /**
- * Pulsante fluttuante, **solo da telefono**.
+ * Pulsante fluttuante, su ogni schermo.
  *
- * Su desktop WhatsApp vive in un'altra scheda o in un'altra applicazione:
- * lì il pulsante fisso sarebbe ingombro senza essere comodo. Sul telefono
- * invece apre direttamente la conversazione, ed è il gesto che le famiglie
- * fanno davvero.
+ * All'inizio era `md:hidden`, cioè solo da telefono, con il ragionamento che su
+ * computer WhatsApp vive in un'altra scheda o in un'altra applicazione e il
+ * pulsante sarebbe stato ingombro senza essere comodo. Ma WhatsApp Web e
+ * l'applicazione per scrittorio sono ormai la norma, e il collegamento apre
+ * l'una o l'altra senza che chi legge debba cercare il numero: l'ingombro c'è,
+ * la scomodità no.
+ *
+ * Su schermo largo cresce un po' e si stacca di più dai bordi — a 56 px in un
+ * angolo di 1400 px sembrava un residuo dimenticato, non un invito.
+ *
+ * **Compare dopo che si è cominciato a scorrere.** Sulla prima schermata il
+ * sito ha già i suoi due inviti, «Richiedi un colloquio» nella navbar e sopra
+ * la fotografia: un terzo pulsante nello stesso momento sarebbe insistenza. Si
+ * fa vivo quando chi legge ha mostrato interesse scendendo nella pagina, ed è
+ * lì che tornare in cima per cercare un contatto diventa scomodo.
  *
  * Sta a `z-40`: sotto la navbar e sotto il pannello del menu, così quando il
  * menu si apre a tutto schermo non resta un cerchio che galleggia sopra.
@@ -26,14 +40,43 @@ export function IconaWhatsapp(props: SVGProps<SVGSVGElement>) {
  * l'unico colore saturo della pagina e si vedrebbe come un pezzo incollato. Il
  * simbolo resta riconoscibile per forma, che è ciò che conta.
  */
+
+/** Quanto si deve scendere perché compaia. Circa mezza schermata. */
+const SOGLIA = 400
+
 export function BottoneWhatsapp() {
+  const [visibile, setVisibile] = useState(false)
+
+  useEffect(() => {
+    const controlla = () => setVisibile(window.scrollY > SOGLIA)
+
+    // Subito, non solo al primo scorrimento: ricaricando la pagina a metà — o
+    // tornandoci indietro — il browser ripristina la posizione senza generare
+    // alcun evento, e il pulsante resterebbe nascosto pur essendo in fondo.
+    controlla()
+
+    // `passive` dice al browser che non fermeremo lo scorrimento: può così
+    // proseguire senza aspettare che questa funzione abbia finito.
+    window.addEventListener('scroll', controlla, { passive: true })
+    return () => window.removeEventListener('scroll', controlla)
+  }, [])
+
   return (
     <a
       href={linkWhatsapp}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Scrivi su WhatsApp"
-      className="ease-morbido fixed right-5 bottom-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-salvia-600 text-sabbia-50 shadow-lg shadow-inchiostro-900/15 transition-transform duration-300 hover:scale-105 active:scale-95 md:hidden"
+      // Da nascosto non è raggiungibile nemmeno con la tastiera, e `hidden` lo
+      // toglie anche a chi usa uno screen reader: un pulsante invisibile ma
+      // ancora annunciato sarebbe peggio che non averlo.
+      aria-hidden={!visibile}
+      tabIndex={visibile ? undefined : -1}
+      className={`ease-morbido fixed right-5 bottom-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-salvia-600 text-sabbia-50 shadow-lg shadow-inchiostro-900/15 transition-all duration-500 hover:scale-105 active:scale-95 lg:right-8 lg:bottom-8 lg:h-16 lg:w-16 ${
+        visibile
+          ? 'translate-y-0 opacity-100'
+          : 'pointer-events-none translate-y-4 opacity-0'
+      }`}
     >
       <IconaWhatsapp className="h-7 w-7" />
     </a>
