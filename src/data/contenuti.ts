@@ -160,16 +160,13 @@ export const presentazione = {
 }
 
 /**
- * Immagini d'ambiente usate fuori dalle aree di servizio.
+ * Qui stava `immagini`, l'ultima fotografia di stock del sito: una foto
+ * d'ambiente generica nella pagina Contatti, marcata da tempo come da
+ * sostituire. Al suo posto c'è ora il ritratto della dott.ssa, quindi non
+ * resta più nessuna immagine comprata al posto di una vera.
  *
- * ⚠️ Sono fotografie generiche di stock, scelte senza persone e nella
- * palette del sito. Servono a non lasciare pagine di solo testo, ma vanno
- * sostituite con fotografie dei luoghi reali di lavoro: la ricerca sul
- * settore è unanime nel dire che le foto vere convertono molto meglio.
+ * Il file `/ambiente-6.jpg` è ancora in `public/` ma non lo usa più nessuno.
  */
-export const immagini = {
-  contatti: '/ambiente-6.jpg',
-}
 
 /**
  * Il marchio personale della professionista.

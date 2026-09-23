@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { FinestraArea } from '@/components/FinestraArea'
+import { FotoAvvicendate } from '@/components/FotoAvvicendate'
 import { Rimando } from '@/components/Rimando'
 import { aree } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
@@ -133,17 +134,18 @@ export function Servizi({ anteprima = false }: Props) {
           return (
             <div key={area.titolo}>
               <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+                {/* Le stesse fotografie della finestra che si apre in home —
+                    leggono l'unico elenco dell'area, quindi restano allineate
+                    da sole — ma qui senza nessun comando: si avvicendano e
+                    basta, non c'è niente da toccare. */}
                 <div
                   data-anim
                   className={immagineADestra ? 'lg:order-last' : undefined}
                 >
-                  <img
-                    src={area.immagini[0]}
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-16/9 w-full rounded-[2rem] object-cover"
+                  <FotoAvvicendate
+                    immagini={area.immagini}
+                    pausa={4000}
+                    className="rounded-[2rem]"
                   />
                 </div>
 

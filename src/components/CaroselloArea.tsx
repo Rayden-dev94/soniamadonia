@@ -43,6 +43,29 @@ export function CaroselloArea({ immagini, titolo, attivo }: Props) {
   const [corrente, setCorrente] = useState(0)
 
   /**
+   * Scorre solo mentre è davvero sotto gli occhi.
+   *
+   * `attivo` dice che la finestra è aperta, questo che l'immagine è davvero
+   * nel campo visivo: dentro una finestra che scorre, la fotografia può
+   * uscire dallo schermo mentre si legge l'elenco dei servizi più in basso.
+   */
+  const [inVista, setInVista] = useState(false)
+
+  useEffect(() => {
+    const nodo = ref.current
+    if (!nodo) return
+
+    const osservatore = new IntersectionObserver(
+      ([voce]) => setInVista(voce.isIntersecting),
+      // Un quarto dell'immagine basta a considerarla guardata: pretendere che
+      // sia intera la terrebbe ferma sugli schermi bassi.
+      { threshold: 0.25 },
+    )
+    osservatore.observe(nodo)
+    return () => osservatore.disconnect()
+  }, [])
+
+  /**
    * L'avanzamento automatico si spegne per sempre al primo comando dato a mano.
    *
    * Continuare a scorrere mentre qualcuno sta guardando una foto che ha scelto
@@ -74,22 +97,25 @@ export function CaroselloArea({ immagini, titolo, attivo }: Props) {
    */
 
   useEffect(() => {
-    if (!attivo || unaSola || !automatico || motoRidotto()) return
+    if (!attivo || !inVista || unaSola || !automatico || motoRidotto()) return
 
     const scandire = window.setInterval(
       () => setCorrente((i) => (i + 1) % totale),
       PAUSA,
     )
     return () => window.clearInterval(scandire)
-  }, [attivo, unaSola, automatico, totale])
+  }, [attivo, inVista, unaSola, automatico, totale])
 
   /**
    * Lo scambio fra due diapositive.
    *
-   * `dependencies: [corrente]` fa ripartire questo blocco a ogni cambio, e
-   * `revertOnUpdate` annulla l'animazione precedente se qualcuno preme avanti
-   * due volte di fila: senza, la seconda transizione partirebbe da uno stato a
-   * metà strada e le foto resterebbero a opacità intermedia.
+   * ⚠️ **Niente `revertOnUpdate`**: c'era, e produceva un difetto preciso.
+   * Annullare un'animazione, per GSAP, vuol dire riportare gli elementi com'erano
+   * *prima* che cominciasse — e prima della dissolvenza precedente la foto
+   * uscente era a piena opacità. A ogni cambio si vedeva quindi ricomparire per
+   * un istante la foto vecchia, come se la sequenza tornasse indietro di un
+   * passo prima di saltare avanti. Si riparte invece dallo stato in cui le
+   * immagini si trovano, così due comandi ravvicinati si concatenano.
    */
   useGSAP(
     () => {
@@ -98,6 +124,9 @@ export function CaroselloArea({ immagini, titolo, attivo }: Props) {
 
       const entra = diapositive[corrente]
       const escono = diapositive.filter((_, i) => i !== corrente)
+
+      // Si fermano dove sono: nessun ritorno allo stato iniziale.
+      gsap.killTweensOf(diapositive)
 
       if (motoRidotto() || diapositive.length === 1) {
         gsap.set(entra, { opacity: 1, scale: 1, zIndex: 2 })
@@ -108,17 +137,22 @@ export function CaroselloArea({ immagini, titolo, attivo }: Props) {
       gsap.set(escono, { zIndex: 1 })
       gsap.set(entra, { zIndex: 2 })
 
+      // L'ingrandimento si riarma solo su un'immagine del tutto nascosta: se
+      // fosse già in parte visibile, riportarla al 110% la farebbe sobbalzare.
+      if (Number(gsap.getProperty(entra, 'opacity')) === 0) {
+        gsap.set(entra, { scale: 1.1 })
+      }
+
       gsap
         .timeline()
         .to(escono, { opacity: 0, duration: 0.7, ease: 'power2.inOut' }, 0)
-        .fromTo(
+        .to(
           entra,
-          { opacity: 0, scale: 1.1 },
           { opacity: 1, scale: 1, duration: 1.1, ease: 'power3.out' },
           0,
         )
     },
-    { scope: ref, dependencies: [corrente], revertOnUpdate: true },
+    { scope: ref, dependencies: [corrente] },
   )
 
   return (
@@ -143,8 +177,12 @@ export function CaroselloArea({ immagini, titolo, attivo }: Props) {
           // contemporanea ruberebbe banda proprio nel momento peggiore.
           loading={indice === 0 ? 'eager' : 'lazy'}
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ opacity: indice === 0 ? 1 : 0 }}
+          // Stato iniziale in una classe e non in `style`: su quest'ultimo
+          // comanda React, e GSAP ci scrive l'opacità — due padroni per la
+          // stessa proprietà.
+          className={`absolute inset-0 h-full w-full object-cover ${
+            indice === 0 ? '' : 'opacity-0'
+          }`}
         />
       ))}
 

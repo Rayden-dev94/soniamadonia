@@ -5,8 +5,9 @@ import { useActionState } from 'react'
 import type { EsitoInvio } from '@/app/azioni/inviaMessaggio'
 import { inviaMessaggio } from '@/app/azioni/inviaMessaggio'
 import { ProfiliSociali } from '@/components/ProfiliSociali'
+import { Ritratto } from '@/components/Ritratto'
 import { IconaWhatsapp } from '@/components/Whatsapp'
-import { immagini, linkWhatsapp, studio } from '@/data/contenuti'
+import { linkWhatsapp, studio } from '@/data/contenuti'
 import { useRivela } from '@/hooks/useRivela'
 
 const INIZIALE: EsitoInvio = { stato: 'inattivo' }
@@ -95,15 +96,18 @@ export function Contatti() {
             della famiglia o dell’organizzazione.
           </p>
 
-          <img
-            data-anim
-            src={immagini.contatti}
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            decoding="async"
-            className="mt-10 hidden aspect-4/3 w-full max-w-md rounded-[2rem] object-cover lg:block"
-          />
+          {/* Il ritratto al posto della fotografia d'ambiente che stava qui —
+              una stock generica, segnalata da tempo come da sostituire. In una
+              pagina dove si chiede a qualcuno di scrivere a una persona, quella
+              persona conviene mostrarla: è la stessa ragione per cui è entrata
+              nel riquadro del colloquio.
+
+              Usa il componente `Ritratto`, che ha già la proporzione 4:5 della
+              fotografia — quindi non la ritaglia — e il ripiego con le iniziali
+              se un giorno il file mancasse. */}
+          <div data-anim className="mt-10 hidden max-w-sm lg:block">
+            <Ritratto />
+          </div>
         </div>
 
         {/* Il modulo passa da un'azione server nostra, non da un servizio
