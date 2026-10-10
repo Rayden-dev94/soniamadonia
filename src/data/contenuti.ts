@@ -262,17 +262,92 @@ export const destinatari = [
  */
 export const aree = [
   {
+    titolo: 'Formazione',
+    sommario:
+      'Corsi per Tecnici del Comportamento, professionisti sanitari, insegnanti e personale scolastico.',
+    /**
+     * La dott.ssa durante una docenza, davanti a una sala di insegnanti.
+     *
+     * È la foto giusta per quest'area perché mostra il ruolo, non l'aula: lei
+     * al microfono, la slide sui principi dell'ABA alle spalle, la platea di
+     * spalle. 1600×900, esattamente il rapporto in cui viene ritagliata.
+     *
+     * ⚠️ La platea è quasi tutta di spalle, ma sul lato destro alcuni volti si
+     * riconoscono di profilo: prima della pubblicazione serve il consenso di
+     * quelle persone all'uso dell'immagine, oppure una sfocatura di quella
+     * porzione. Diversamente dalle foto degli interventi, qui non c'è alcun
+     * dato sanitario in gioco — sono partecipanti a un corso — quindi basta il
+     * consenso ordinario all'immagine.
+     */
+    /**
+     * Dieci fotografie di corsi e incontri formativi.
+     *
+     * Quelle che non arrivavano già in 16:9 sono state ritagliate su quel
+     * rapporto prima di entrare qui, invece di lasciar fare al browser: così si
+     * sceglie cosa perdere — soffitti e pavimenti vuoti — e il file che viaggia
+     * è più leggero.
+     *
+     * ⚠️ `formazione-gruppo-corso` arrivava panoramica, molto più larga del
+     * riquadro: per rientrare nel 16:9 ha perso circa due persone per lato. Se
+     * esistesse lo scatto originale meno stretto, varrebbe la pena rifarla.
+     */
+    immagini: [
+      // La principale: è quella che si vede nella scheda in home e che apre il
+      // carosello. Ritrae il corso all'Istituto «Luigi Sturzo» di Caltagirone,
+      // nominato qui sotto nel testo del primo servizio.
+      '/scuola-equipe.jpg',
+      '/formazione-aba.jpg',
+      '/formazione-aula.jpg',
+      '/formazione-aula-magna.jpg',
+      '/formazione-aula-luminosa.jpg',
+      '/formazione-gruppo-scale.jpg',
+      '/formazione-gruppo-corso.jpg',
+      '/formazione-proiezione.jpg',
+      '/formazione-incontro.jpg',
+      '/corso-scuola.jpg',
+    ],
+    servizi: [
+      {
+        titolo: 'Corso di Tecnico del Comportamento e interventi multidisciplinari',
+        testo:
+          'Sono referente scientifico e docente del corso di formazione per Tecnico del Comportamento presso l’Istituto di Sociologia “Luigi Sturzo” di Caltagirone. Il corso è finalizzato al percorso per il conseguimento della certificazione come Tecnico del Comportamento, secondo i requisiti stabiliti dall’ente certificatore di riferimento. Il percorso formativo si articola in 52 ore complessive: conduco personalmente 40 ore di formazione teorico-pratica sui principi e sulle procedure dell’Analisi del Comportamento Applicata, mentre le ulteriori 12 ore prevedono il coinvolgimento di diverse figure professionali, tra cui logopedista, psicomotricista, osteopata, psicoterapeuta e neuropsichiatra infantile. Per le professioni sanitarie ammesse è previsto il riconoscimento di 50 crediti ECM, secondo le modalità stabilite dal provider accreditato. La metodologia comprende spiegazioni, analisi di casi, dimostrazioni, visione guidata di video didattici, role-playing, esercitazioni pratiche e feedback specifici.',
+        elenco: [
+          'Osservazione, misurazione e valutazione funzionale del comportamento',
+          'Procedure di insegnamento, prompting e rinforzo',
+          'Comunicazione funzionale e sviluppo delle autonomie',
+          'Prevenzione e gestione dei comportamenti che interferiscono',
+          'Raccolta, rappresentazione e interpretazione dei dati',
+          'Generalizzazione e mantenimento delle abilità',
+          'Collaborazione con famiglie ed équipe multidisciplinari',
+          'Responsabilità etiche e limiti del ruolo professionale',
+        ],
+      },
+      {
+        // Sta subito dopo la docenza al corso e prima della formazione per la
+        // scuola: è il passo successivo dello stesso percorso — prima si
+        // insegna, poi si supervisiona chi sta ottenendo la certificazione.
+        titolo:
+          'Supervisione per il conseguimento della certificazione di Tecnico del Comportamento',
+        testo:
+          'Svolgo attività di supervisione nell’ambito dei percorsi finalizzati al conseguimento della certificazione come Tecnico del Comportamento, secondo i requisiti stabiliti da IACABAI, IBAO e ABAIT. La supervisione comprende la pianificazione e il monitoraggio della pratica, l’osservazione diretta o tramite registrazioni video, l’analisi dei casi, la valutazione delle competenze, il feedback e la predisposizione della documentazione richiesta.',
+      },
+      {
+        titolo: 'Formazione per insegnanti e personale scolastico',
+        testo:
+          'Incontri formativi sui temi dell’autismo, dei Bisogni Educativi Speciali e dell’inclusione: comprensione del comportamento, organizzazione preventiva dell’ambiente, comunicazione e supporti visivi, motivazione e rinforzo, abilità sociali, transizioni, autonomie scolastiche, collaborazione scuola-famiglia-équipe e promozione del benessere nel gruppo classe. I contenuti vengono adattati alle esigenze dell’istituto e accompagnati da esempi applicativi.',
+      },
+    ],
+  },
+  {
     titolo: 'Valutazione e progettazione',
     sommario:
       'Dal primo colloquio al piano individualizzato: capire cosa serve prima di decidere come intervenire.',
     /** Foto vera di un colloquio: persone riconoscibili, serve il consenso. */
+    // Una sola fotografia: il carosello resta a Formazione, che è
+    // l’unica area con abbastanza materiale. Con una immagine sola il
+    // componente non mostra comandi e non anima nulla.
     immagini: [
       '/colloquio.jpg',
-      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
-      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
-      // riquadri con scritto «foto di prova» e in pagina si vedono.
-      '/segnaposto-2.jpg',
-      '/segnaposto-3.jpg',
     ],
     servizi: [
       {
@@ -343,13 +418,11 @@ export const aree = [
      * particolarissimo: con il volto coperto la fotografia non è più un dato
      * personale, ma finché l'originale è recuperabile la questione non è chiusa.
      */
+    // Una sola fotografia: il carosello resta a Formazione, che è
+    // l’unica area con abbastanza materiale. Con una immagine sola il
+    // componente non mostra comandi e non anima nulla.
     immagini: [
       '/intervento.jpg',
-      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
-      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
-      // riquadri con scritto «foto di prova» e in pagina si vedono.
-      '/segnaposto-2.jpg',
-      '/segnaposto-3.jpg',
     ],
     servizi: [
       {
@@ -394,13 +467,11 @@ export const aree = [
      * scritto di ciascuna, oppure una foto diversa. Non è un dato sanitario —
      * sono corsisti — ma restano volti identificabili di persone private.
      */
+    // Una sola fotografia: il carosello resta a Formazione, che è
+    // l’unica area con abbastanza materiale. Con una immagine sola il
+    // componente non mostra comandi e non anima nulla.
     immagini: [
-      '/scuola-equipe.jpg',
-      '/corso-formazione.jpg',
-      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
-      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
-      // riquadri con scritto «foto di prova» e in pagina si vedono.
-      '/segnaposto-4.jpg',
+      '/formazione-aula-banchi.jpg',
     ],
     servizi: [
       {
@@ -417,64 +488,6 @@ export const aree = [
         titolo: 'Consulenza scientifica e progettazione di servizi',
         testo:
           'Per cooperative, enti, istituti scolastici e organizzazioni: analisi dei bisogni, definizione del modello operativo, progettazione dei percorsi, indicatori di esito, organizzazione e formazione dell’équipe, procedure e strumenti di monitoraggio, supervisione dell’attuazione, valutazione della qualità del servizio e coordinamento scientifico di corsi di formazione.',
-      },
-    ],
-  },
-  {
-    titolo: 'Formazione',
-    sommario:
-      'Corsi per Tecnici del Comportamento, professionisti sanitari, insegnanti e personale scolastico.',
-    /**
-     * La dott.ssa durante una docenza, davanti a una sala di insegnanti.
-     *
-     * È la foto giusta per quest'area perché mostra il ruolo, non l'aula: lei
-     * al microfono, la slide sui principi dell'ABA alle spalle, la platea di
-     * spalle. 1600×900, esattamente il rapporto in cui viene ritagliata.
-     *
-     * ⚠️ La platea è quasi tutta di spalle, ma sul lato destro alcuni volti si
-     * riconoscono di profilo: prima della pubblicazione serve il consenso di
-     * quelle persone all'uso dell'immagine, oppure una sfocatura di quella
-     * porzione. Diversamente dalle foto degli interventi, qui non c'è alcun
-     * dato sanitario in gioco — sono partecipanti a un corso — quindi basta il
-     * consenso ordinario all'immagine.
-     */
-    immagini: [
-      '/formazione-aba.jpg',
-      '/corso-scuola.jpg',
-      // ⚠️ SEGNAPOSTO TEMPORANEI — servono solo a mostrare l'effetto del
-      // carosello. Vanno sostituiti con fotografie vere, o tolti: sono
-      // riquadri con scritto «foto di prova» e in pagina si vedono.
-      '/segnaposto-4.jpg',
-    ],
-    servizi: [
-      {
-        titolo: 'Corso di Tecnico del Comportamento e interventi multidisciplinari',
-        testo:
-          'Sono referente scientifico e docente del corso di formazione per Tecnico del Comportamento presso l’Istituto di Sociologia “Luigi Sturzo” di Caltagirone. Il corso è finalizzato al percorso per il conseguimento della certificazione come Tecnico del Comportamento, secondo i requisiti stabiliti dall’ente certificatore di riferimento. Il percorso formativo si articola in 52 ore complessive: conduco personalmente 40 ore di formazione teorico-pratica sui principi e sulle procedure dell’Analisi del Comportamento Applicata, mentre le ulteriori 12 ore prevedono il coinvolgimento di diverse figure professionali, tra cui logopedista, psicomotricista, osteopata, psicoterapeuta e neuropsichiatra infantile. Per le professioni sanitarie ammesse è previsto il riconoscimento di 50 crediti ECM, secondo le modalità stabilite dal provider accreditato. La metodologia comprende spiegazioni, analisi di casi, dimostrazioni, visione guidata di video didattici, role-playing, esercitazioni pratiche e feedback specifici.',
-        elenco: [
-          'Osservazione, misurazione e valutazione funzionale del comportamento',
-          'Procedure di insegnamento, prompting e rinforzo',
-          'Comunicazione funzionale e sviluppo delle autonomie',
-          'Prevenzione e gestione dei comportamenti che interferiscono',
-          'Raccolta, rappresentazione e interpretazione dei dati',
-          'Generalizzazione e mantenimento delle abilità',
-          'Collaborazione con famiglie ed équipe multidisciplinari',
-          'Responsabilità etiche e limiti del ruolo professionale',
-        ],
-      },
-      {
-        // Sta subito dopo la docenza al corso e prima della formazione per la
-        // scuola: è il passo successivo dello stesso percorso — prima si
-        // insegna, poi si supervisiona chi sta ottenendo la certificazione.
-        titolo:
-          'Supervisione per il conseguimento della certificazione di Tecnico del Comportamento',
-        testo:
-          'Svolgo attività di supervisione nell’ambito dei percorsi finalizzati al conseguimento della certificazione come Tecnico del Comportamento, secondo i requisiti stabiliti da IACABAI, IBAO e ABAIT. La supervisione comprende la pianificazione e il monitoraggio della pratica, l’osservazione diretta o tramite registrazioni video, l’analisi dei casi, la valutazione delle competenze, il feedback e la predisposizione della documentazione richiesta.',
-      },
-      {
-        titolo: 'Formazione per insegnanti e personale scolastico',
-        testo:
-          'Incontri formativi sui temi dell’autismo, dei Bisogni Educativi Speciali e dell’inclusione: comprensione del comportamento, organizzazione preventiva dell’ambiente, comunicazione e supporti visivi, motivazione e rinforzo, abilità sociali, transizioni, autonomie scolastiche, collaborazione scuola-famiglia-équipe e promozione del benessere nel gruppo classe. I contenuti vengono adattati alle esigenze dell’istituto e accompagnati da esempi applicativi.',
       },
     ],
   },
