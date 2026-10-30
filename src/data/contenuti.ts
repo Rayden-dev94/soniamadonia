@@ -210,11 +210,12 @@ export const credenziali = [
  * precisa nella comunità autistica, e il testo la rende esplicita. Non
  * sostituire né l'immagine né le parole con qualcosa di più «neutro».
  *
- * Il testo è la versione integrale fornita dalla dott.ssa il 5 settembre 2026,
- * che sostituisce quella troncata del primo documento: si fermava su «alla
- * costruzione di qualcosa» e le mancavano il nome dei Tucarù, l'idea dell'opera
- * che resta aperta e la frase di chiusura. Sono le tre cose che la fanno finire
- * invece di interrompersi: da qui in poi si tocca solo con parole sue.
+ * Il testo è la versione fornita dalla dott.ssa il 30 ottobre 2026. Rispetto
+ * alla precedente aggiunge l'attribuzione del confronto che ha dato origine
+ * all'opera: la ricerca della dott.ssa Selenia Campanaro sulla comunità delle
+ * persone autistiche, condivisa in un laboratorio con i Tucarù. Prima il merito
+ * restava anonimo; ora è un riconoscimento esplicito a una collega, e come tale
+ * non va abbreviato — da qui in poi si tocca solo con parole sue.
  */
 export const opera = {
   occhiello: 'Un’opera collettiva',
@@ -224,7 +225,8 @@ export const opera = {
   paragrafi: [
     'Infinito è un’opera collettiva realizzata con le impronte dei bambini e dei ragazzi con diagnosi di autismo che seguo nell’ambito dei progetti promossi dalle ASP di Caltanissetta e Catania presso le cooperative Carpe Diem di Gela e Zeno Saltini di Caltagirone.',
     'Alle loro impronte si uniscono quelle delle tante persone che, con ruoli diversi, fanno parte della nostra rete: tecnici del comportamento, educatori, insegnanti, tirocinanti, fotografi, rappresentanti delle istituzioni, giornalisti, assistenti sociali, responsabili delle cooperative e molti altri.',
-    'Tutte queste impronte, diverse tra loro, si incontrano e formano un unico infinito. Sono stati proprio alcuni ragazzi con diagnosi di autismo, i Tucarù, a farmene comprendere il significato più profondo: non sono pezzi di un puzzle e nessuno di noi lo è. Ogni persona è unica e completa e, nell’incontro con gli altri, può esprimere le proprie caratteristiche e i propri talenti, contribuendo a creare qualcosa che nessuno potrebbe costruire da solo.',
+    'Tutte queste impronte, diverse tra loro, si incontrano e formano un unico infinito. Una riflessione importante sul significato dei simboli è arrivata dalla dott.ssa Selenia Campanaro, psicologa, che ha svolto una ricerca sulla comunità delle persone autistiche e ne ha condiviso alcuni contenuti durante un laboratorio con i Tucarù, ragazzi con diagnosi di autismo. Da quel laboratorio ho appreso quanto sia importante ascoltare e divulgare il punto di vista della comunità autistica.',
+    'È stato anche grazie a quel confronto che mi è venuta l’idea di realizzare quest’opera, perché avevo compreso il significato più profondo del simbolo e ciò che desideravo esprimere attraverso di esso: le persone non sono pezzi di un puzzle e nessuno di noi lo è. Ogni persona è unica e completa e, nell’incontro con gli altri, può esprimere le proprie caratteristiche e i propri talenti, contribuendo a creare qualcosa che nessuno potrebbe costruire da solo.',
     'Per questo, l’opera non sarà mai definitivamente conclusa: resterà aperta ad accogliere ogni nuova mano che vorrà unirsi, lasciando la propria impronta e diventando parte di questo infinito.',
   ],
   /**
